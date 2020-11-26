@@ -23,9 +23,15 @@ populationPlot = InitializePopulationPlot(population);
 
 countryPlot = InitializeCountryPlot(parameters, parties);
 
-for i = 1:nIteration
+for iIteration = 1:nIteration
+    
+    preferredParameters =  population(:, 3:(2 + nParameter));
+    
+    happiness = CalculateHappiness(preferredParameters, parameters);
     
     opinions = population(:, (3 + nParameter):(2 + nParameter + nParty));
+    
+    UpdatePopulationPlot(populationPlot, population, happiness);
     
     [newParameters, government] = RunElection(parties, opinions, parameters);
     
@@ -36,7 +42,5 @@ for i = 1:nIteration
     population(:, (3 + nParameter):(2 + nParameter + nParty)) = newOpinions;
     
     population = CreateNextGeneration(population);
-    
-    UpdatePopulationPlot(populationPlot, population);
     
 end
