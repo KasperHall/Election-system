@@ -2,7 +2,7 @@ clear variables; close all; clc;
 
 nParameter = 3;
 nIndividual = 5;
-nParty = 10;                % Allowed values [1, 10]
+nParty = 3;                % Allowed values [1, 10]
 gridSize = 100;
 percentageToUpdate = 0.5;
 neighbourhoodSize = 20;
@@ -12,14 +12,12 @@ nIteration = 1000;
 runningGov = ones(nParty, 1, 'logical');
 
 partyColors = InitializePartyColors();
-countryParameters = InitializeParameters(nParameter);
 
-% Population [x, y, population parameter, opinion of the parties]
-population = InitializePopulation(nIndividual, gridSize, nParameter, nParty);
+countryParameters = InitializeParameters(nParameter);
 partyParameters = InitializeParties(nParty, nParameter);
 
-populationParameters = population(:, 3:(2 + nParameter));
-populationOpinion = ComputeOpinion(populationParameters, partyParameters);
+% Population [x, y, population parameters, opinion of the parties]
+population = InitializePopulation(nIndividual, gridSize, partyParameters);
 
 [pieAx, hAxes, populationPlot, countryPlot] = InitializePlot(...
   population, gridSize, countryParameters, runningGov, partyColors);
