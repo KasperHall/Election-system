@@ -1,5 +1,5 @@
 function [pieAx, countryPlot] = InitializeCountryPlot(...
-  countryParameters, runningGov, hAxes, partyColors)
+  countryParameters, government, hAxes, partyColors)
 
   countryPlot = bar(hAxes, countryParameters);
   
@@ -9,7 +9,8 @@ function [pieAx, countryPlot] = InitializeCountryPlot(...
   title('Country')
   
   pieAx = axes('Position',[0.83 0.8 0.15 0.15]);
-  pie(pieAx, ones(1, sum(runningGov)));
-  colormap(pieAx, partyColors(runningGov, :))
+  pie(pieAx, ones(1, sum(government)));
+  colormap(pieAx, partyColors(government, :))
+  title('Goverment dist')
   
 end
