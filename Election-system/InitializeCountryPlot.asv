@@ -7,7 +7,7 @@ function countryPlot = InitializeCountryPlot(parameters, nParty, hAxes)
   xlabel('Parmeter')
   ylabel('Parmeter value')
   
-  pieAx = axes('Position',[0.83 0.8 0.15 0.15]);
+  pieAx = axes('Position',[0.8 0.8 0.2 0.2]);
   pie(ones([1, nParty]));
   
 end
