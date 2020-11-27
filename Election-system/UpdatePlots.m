@@ -1,6 +1,6 @@
 function UpdatePlots(hFigure, generation, populationPlot, population, ...
   happiness, votes, countryPlot, countryParameters, pieAx, government, ...
-  partyColors)
+  partyColors, recordVideo, videoHandle)
 
   UpdatePopulationPlot(populationPlot, population, happiness, votes, ... 
     partyColors);
@@ -9,6 +9,12 @@ function UpdatePlots(hFigure, generation, populationPlot, population, ...
   
   % Comment this out - slightly slows down the code
   hFigure.Children(1).String = sprintf('Generation %d', generation);
+  
+  if recordVideo
+    videoFrame = getframe(hFigure);
+    writeVideo(videoHandle, videoFrame);
+  end
+  
   drawnow();
 
 end

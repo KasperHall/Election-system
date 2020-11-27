@@ -1,9 +1,18 @@
 clear variables; close all; clc;
 
-nGens = 100;
-nParameter = 6;
-nIndividual = 10;
-nParty = 5;                % Allowed values [1, 10]
+recordVideo = false;
+videoHandle = 0;
+if recordVideo
+  videoHandle = VideoWriter(datestr(now,'mm-dd-yyyy HH-MM'),'MPEG-4');
+  v.FrameRate = 30;
+  v.Quality = 100;
+  open(videoHandle);
+end
+
+nGens = 1000;
+nParameter = 30;
+nIndividual = 200;
+nParty = 6;                % Allowed values [1, 10]
 gridSize = 100;
 percentageToUpdate = 0.5;
 neighbourhoodSize = 20;
@@ -47,5 +56,9 @@ for generation = 2:nGens
     % Update plots
     UpdatePlots(hFigure, generation, populationPlot, population, ...
       happiness, votes, countryPlot, countryParameters, pieAx, ...
-      government, partyColors)
+      government, partyColors, recordVideo, videoHandle)
+end
+
+if recordVideo
+  close(videoHandle);
 end
