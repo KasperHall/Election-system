@@ -41,7 +41,7 @@ for generation = 2:nGens
       populationParameters, government, countryParameters, ...
       oldCountryParameters, changeWeight, unfairityWeight);
     
-    %population(:, (3+nParameter):(2+nParameter+nParty)) = newOpinions;
+    population(:, (3+nParameter):(2+nParameter+nParty)) = populationOpinions;
     population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty);
     
     % Update plots
