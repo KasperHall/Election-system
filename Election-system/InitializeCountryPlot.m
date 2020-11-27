@@ -1,6 +1,5 @@
 function countryPlot = InitializeCountryPlot(parameters, nParty, hAxes)
 
-  nParameters = length(parameters);
   countryPlot = bar(hAxes, parameters);
   
   hAxes.YLim = [0, 1];
@@ -8,6 +7,6 @@ function countryPlot = InitializeCountryPlot(parameters, nParty, hAxes)
   ylabel('Parmeter value')
   
   pieAx = axes('Position',[0.83 0.8 0.15 0.15]);
-  pie(ones([1, nParty]));
+  pie(pieAx, ones([1, nParty]));
   
 end
