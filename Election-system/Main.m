@@ -36,7 +36,7 @@ for iIteration = 1:nIteration
     
     [newParameters, government, votes] = RunElection(parties, opinions, parameters);
     
-    UpdatePopulationPlot(populationPlot, population, happiness, votes);
+    UpdatePopulationPlot(populationPlot, population, happiness, votes, partyColors);
     
     UpdateCountryPlot(newParameters, government);
     
