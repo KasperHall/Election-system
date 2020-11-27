@@ -12,7 +12,7 @@ function parties = InitializeParties(nParty, nParameter)
     otherwise
       firstParty = ones(1, nParameter);
       secondParty = zeros(1, nParameter);
-      otherParty = rand(nParty, nParameter);
+      otherParty = rand(nParty - 2, nParameter);
       parties = [firstParty; secondParty; otherParty];
   end
   
