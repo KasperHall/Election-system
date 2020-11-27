@@ -2,25 +2,22 @@ clear variables; close all; clc;
 
 nParameter = 10;
 nIndividual = 100;
-nParty = 10;
+nParty = 10;                % Allowed values [1, 10]
 gridSize = 100;
 percentageToUpdate = 0.5;
 neighbourhoodSize = 20;
-
-
-partyColors = InitializePartyColors();
-
 nIteration = 1000;
 
+partyColors = InitializePartyColors();
 parameters = InitializeParameters(nParameter);
 
-% Population is matrix with size nPopulation x (2 + nParameter + nParty)
+% Population is a matrix with size nPopulation x (2 + nParameter + nParty)
 population = InitializePopulation(nIndividual, gridSize, nParameter, nParty); 
 
 parties = InitializeParties(nParty, nParameter);
 
-[hAxes, populationPlot, countryPlot] = InitializePlot(population, ...
-  gridSize, parameters, nParty);
+[pieAx, hAxes, populationPlot, countryPlot] = ...
+  InitializePlot(population, gridSize, parameters, nParty, partyColors);
 
 for iIteration = 1:nIteration
     

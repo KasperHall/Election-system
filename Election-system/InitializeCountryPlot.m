@@ -1,4 +1,5 @@
-function countryPlot = InitializeCountryPlot(parameters, nParty, hAxes)
+function [pieAx, countryPlot] = InitializeCountryPlot(parameters, ...
+  nParty, hAxes, partyColors)
 
   countryPlot = bar(hAxes, parameters);
   
@@ -8,5 +9,6 @@ function countryPlot = InitializeCountryPlot(parameters, nParty, hAxes)
   
   pieAx = axes('Position',[0.83 0.8 0.15 0.15]);
   pie(pieAx, ones([1, nParty]));
+  colormap(pieAx, partyColors(1:nParty, :))
   
 end
