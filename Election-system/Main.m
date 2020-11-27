@@ -9,6 +9,9 @@ nParameter = 10;
 nIndividual = 100;
 nParty = 10;
 gridSize = 100;
+percentageToUpdate = 0.5;
+neighbourhoodSize = 20;
+
 
 partyColors = InitializePartyColors();
 
@@ -44,6 +47,6 @@ for iIteration = 1:nIteration
     
     population(:, (3 + nParameter):(2 + nParameter + nParty)) = newOpinions;
     
-    population = CreateNextGeneration(population);
+    population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize);
     
 end
