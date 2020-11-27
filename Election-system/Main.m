@@ -8,12 +8,13 @@
 nParameter = 10;
 nIndividual = 100;
 nParty = 10;
+gridSize = 100;
 
 nIteration = 1000;
 
 parameters = InitializeParameters(nParameter);
 
-population = InitializePopulation(nIndividual, nParameter, nParty); %population is matrix with size nPopulation x (2 + nParameter + nParty)
+population = InitializePopulation(nIndividual, gridSize, nParameter, nParty); %population is matrix with size nPopulation x (2 + nParameter + nParty)
 
 parties = InitializeParties(nParty, nParameter);
 
