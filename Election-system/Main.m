@@ -7,6 +7,9 @@ gridSize = 100;
 percentageToUpdate = 0.5;
 neighbourhoodSize = 20;
 
+changeWeight = 0.1;
+unfairityWeight = 0.1;
+
 
 partyColors = InitializePartyColors();
 
@@ -36,7 +39,7 @@ for iIteration = 1:nIteration
     
     UpdateCountryPlot(newParameters, government);
     
-    newOpinions = ChangeOpinion(opinions, preferredParameters, government, newParameters, parameters);
+    newOpinions = ChangeOpinion(opinions, preferredParameters, government, newParameters, parameters, changeWeight, unfairityWeight);
     
     parameters = newParameters;
     
