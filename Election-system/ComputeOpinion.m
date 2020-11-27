@@ -11,8 +11,8 @@ function populationOpinion = ComputeOpinion(populationParameters, ...
   populationOpinion = zeros(nIndividual, nParty);
   
   for i = 1:nParty
-    rms = sqrt(mean((partyParameters(i, :) - populationParameters).^2, 2));
-    populationOpinion(:, i) = 1./(1 + rms)';
+    mae = mean(abs(partyParameters(i, :) - populationParameters), 2);
+    populationOpinion(:, i) = (1 - mae)';
   end
   
 end
