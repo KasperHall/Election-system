@@ -19,7 +19,7 @@ function [newParameters, government, votes] = RunElection(parties, opinions, par
             votes(index) = votes(index) + 1;
         end
     
-    [~,index] = max(votes);
+    [~,index] = max(votes); % atm the same number of votes leads to the first tied party in the list to win
     government(index) = 1;
     
     %change parameters 20% toward the new leading party
