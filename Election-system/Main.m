@@ -1,9 +1,4 @@
-%test
-
-% New code when I stll haven't updated, what happens?
-
-%Test message
-% New stuff :D
+clear variables; close all; clc;
 
 nParameter = 10;
 nIndividual = 100;
@@ -25,7 +20,7 @@ population = InitializePopulation(nIndividual, gridSize, nParameter, nParty);
 parties = InitializeParties(nParty, nParameter);
 
 [hAxes, populationPlot, countryPlot] = InitializePlot(population, ...
-  gridSize, parameters, parties);
+  gridSize, parameters, nParty);
 
 for iIteration = 1:nIteration
     
