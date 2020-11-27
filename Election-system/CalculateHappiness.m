@@ -1,6 +1,8 @@
-function happiness = CalculateHappiness(preferredParameters, parameters)
+function happiness = CalculateHappiness(populationParameters, ...
+                                        countryParameters)
 
-happiness = 1 / (1 + sqrt(mean((parameters - preferredParameters).^2, 2)));
+  rms = sqrt(mean((countryParameters - populationParameters).^2, 2));
+  happiness = 1./(1 + rms);
 
 end
 

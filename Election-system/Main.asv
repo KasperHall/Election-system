@@ -11,33 +11,33 @@ unfairityWeight = 0.1;
 nIteration = 1000;
 
 partyColors = InitializePartyColors();
-countryParameters = InitializeParameters(nParameter);
+parameters = InitializeParameters(nParameter);
 
-% Population [x, y, population parameter, opinion of the parties]
+% Population [x, y, parameter, opinion]
 population = InitializePopulation(nIndividual, gridSize, nParameter, nParty); 
 
-partyParameters = InitializeParties(nParty, nParameter);
+parties = InitializeParties(nParty, nParameter);
 
 [pieAx, hAxes, populationPlot, countryPlot] = ...
-  InitializePlot(population, gridSize, countryParameters, nParty, partyColors);
+  InitializePlot(population, gridSize, parameters, nParty, partyColors);
 
 for iIteration = 1:nIteration
     
-    populationParameters = population(:, 3:(2 + nParameter));
+    preferredParameters = population(:, 3:(2 + nParameter));
     
-    happiness = CalculateHappiness(populationParameters, countryParameters);
+    happiness = CalculateHappiness(preferredParameters, parameters);
     
     opinions = population(:, (3 + nParameter):(2 + nParameter + nParty));
     
-    [newParameters, government, votes] = RunElection(partyParameters, opinions, countryParameters);
+    [newParameters, government, votes] = RunElection(parties, opinions, parameters);
     
     UpdatePopulationPlot(populationPlot, population, happiness, votes, partyColors);
     
     UpdateCountryPlot(newParameters, government);
     
-    newOpinions = ChangeOpinion(opinions, populationParameters, government, newParameters, countryParameters, changeWeight, unfairityWeight);
+    newOpinions = ChangeOpinion(opinions, preferredParameters, government, newParameters, parameters, changeWeight, unfairityWeight);
     
-    countryParameters = newParameters;
+    parameters = newParameters;
     
     population(:, (3 + nParameter):(2 + nParameter + nParty)) = newOpinions;
     
