@@ -45,6 +45,8 @@ for iIteration = 1:nIteration
     
     newOpinions = ChangeOpinion(opinions, government, newParameters, parameters);
     
+    parameters = newParameters;
+    
     population(:, (3 + nParameter):(2 + nParameter + nParty)) = newOpinions;
     
     population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize);
