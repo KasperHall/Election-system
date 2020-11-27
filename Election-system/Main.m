@@ -20,7 +20,7 @@ parties = InitializeParties(nParty, nParameter);
 
 
 
-populationPlot = InitializePopulationPlot(population);
+populationPlot = InitializePopulationPlot(population, gridSize);
 
 countryPlot = InitializeCountryPlot(parameters, parties);
 
@@ -32,9 +32,9 @@ for iIteration = 1:nIteration
     
     opinions = population(:, (3 + nParameter):(2 + nParameter + nParty));
     
-    UpdatePopulationPlot(populationPlot, population, happiness);
+    [newParameters, government, votes] = RunElection(parties, opinions, parameters);
     
-    [newParameters, government] = RunElection(parties, opinions, parameters);
+    UpdatePopulationPlot(populationPlot, population, happiness, votes);
     
     UpdateCountryPlot(newParameters, government);
     
