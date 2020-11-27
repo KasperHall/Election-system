@@ -10,6 +10,8 @@ nIndividual = 100;
 nParty = 10;
 gridSize = 100;
 
+partyColors = InitializePartyColors();
+
 nIteration = 1000;
 
 parameters = InitializeParameters(nParameter);
