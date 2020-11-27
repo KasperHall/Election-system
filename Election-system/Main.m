@@ -24,7 +24,7 @@ population = InitializePopulation(nIndividual, gridSize, nParameter, nParty);
 
 parties = InitializeParties(nParty, nParameter);
 
-hAxes, populationPlot, countryPlot = InitializePlot(population, ...
+[hAxes, populationPlot, countryPlot] = InitializePlot(population, ...
   gridSize, parameters, parties);
 
 for iIteration = 1:nIteration

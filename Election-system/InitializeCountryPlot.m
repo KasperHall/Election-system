@@ -1,11 +1,10 @@
-function countryPlot = InitializeCountryPlot(parameters, parties)
+function countryPlot = InitializeCountryPlot(parameters, parties, hAxes)
 
+  nParameters = length(parameters);
+  countryPlot = bar(hAxes, parameters);
   
-%   countryPlot = scatter(hAxes, population(:, 1), population(:, 2), ...
-%     50, 'filled', 'k');
-%   
-%   hAxes.XLim = [-gridSize/2, gridSize/2];
-%   hAxes.YLim = [-gridSize/2, gridSize/2];
-
-
+  hAxes.YLim = [0, 1];
+  xlabel('Parmeter')
+  ylabel('Parmeter value')
+  
 end
