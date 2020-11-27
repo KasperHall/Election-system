@@ -1,8 +1,8 @@
 clear variables; close all; clc;
 
 nGens = 100;
-nParameter = 20;
-nIndividual = 1000;
+nParameter = 6;
+nIndividual = 10;
 nParty = 5;                % Allowed values [1, 10]
 gridSize = 100;
 percentageToUpdate = 0.5;
@@ -30,14 +30,19 @@ for generation = 2:nGens
     
     happiness = ComputeHappiness(populationParameters, ...
       countryParameters);
-    opinions = population(:, (3 + nParameter):(2 + nParameter + nParty));
+    populationOpinions = population(:, (3 + nParameter):(2 + nParameter + nParty));
+    oldCountryParameters = countryParameters;
     
-    [countryParameters, government, votes] = RunElection(partyParameters, opinions, countryParameters, pickedSystem(1));
+    [countryParameters, government, votes] = RunElection(...
+      partyParameters, populationOpinions, countryParameters, pickedSystem(1));
     
     % Update population
-    %newOpinions = ChangeOpinion(opinions, populationParameters, government, countryParameters, countryParameters, changeWeight, unfairityWeight);
+    populationOpinions = ChangeOpinion(populationOpinions, ...
+      populationParameters, government, countryParameters, ...
+      oldCountryParameters, changeWeight, unfairityWeight);
+    
     %population(:, (3+nParameter):(2+nParameter+nParty)) = newOpinions;
-    %population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty);
+    population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty);
     
     % Update plots
     UpdatePlots(hFigure, generation, populationPlot, population, ...

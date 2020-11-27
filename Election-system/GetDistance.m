@@ -1,4 +1,3 @@
-
 function distanceMatrix = GetDistance(population)
 
     populationSize = size(population,1);
