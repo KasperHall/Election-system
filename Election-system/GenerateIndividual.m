@@ -1,8 +1,6 @@
-function individual = GenerateIndividual(parent1, parent2, neighbourhoodSize, gridSize)
+function individual = GenerateIndividual(parent1, parent2, neighbourhoodSize, gridSize, nParameter, nParty)
 
-
-    %Not needed at the moment, might be needed when the individual isn't a copy of a parent.
-    %individual = zeros(1,size(parent1,2)); 
+    individual = zeros(1,size(parent1,2)); 
     
     p1PosX = parent1(1);
     p1PosY = parent1(2);
@@ -26,10 +24,29 @@ function individual = GenerateIndividual(parent1, parent2, neighbourhoodSize, gr
         newY = -gridSize/2;
     end
     
-    
-    % Individual is currently a copy of the first parent at a new location
-    % This will have to be changed later
-    individual = parent1;
+    for i = 1:nParameter
+        r = normrnd(1,0.1);
+        if rand < 0.5
+            individual(2+i) = parent1(2+i) * r;
+        else
+            individual(2+i) = parent2(2+1) * r;
+        end
+        if individual(2+i) > 1
+            individual(2+i) = 1;
+        end
+    end
+    for i = 1:nParty
+        r = normrnd(1,0.1);
+        if rand < 0.5
+            individual(2 + nParameter + i) = parent1(2 + nParameter + i) * r;
+        else
+            individual(2 + nParameter + i) = parent2(2 + nParameter + i) * r;
+        end
+        if individual(2 + nParameter + i) > 1
+            individual(2 + nParameter + i) = 1;
+        end
+    end
+           
     individual(1) = newX;
     individual(2) = newY;
     
