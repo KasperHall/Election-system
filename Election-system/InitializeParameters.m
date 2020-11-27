@@ -1,5 +1,5 @@
 function parameters = InitializeParameters(nParameter)
 
-  parameters = rand(nParameter, 1);
+  parameters = rand(1, nParameter);
 
 end
