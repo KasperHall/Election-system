@@ -29,7 +29,7 @@ hAxes, populationPlot, countryPlot = InitializePlot(population, ...
 
 for iIteration = 1:nIteration
     
-    preferredParameters =  population(:, 3:(2 + nParameter));
+    preferredParameters = population(:, 3:(2 + nParameter));
     
     happiness = CalculateHappiness(preferredParameters, parameters);
     
@@ -41,7 +41,7 @@ for iIteration = 1:nIteration
     
     UpdateCountryPlot(newParameters, government);
     
-    newOpinions = ChangeOpinion(opinions, government, newParameters, parameters);
+    newOpinions = ChangeOpinion(opinions, preferredParameters, government, newParameters, parameters);
     
     parameters = newParameters;
     
