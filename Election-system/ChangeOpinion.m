@@ -10,7 +10,7 @@ relativeAnger = newAnger - oldAnger;
 
 newOpinions = opinions - changeWeight * government .* relativeAnger;
 
-newOpinions = newOpinions - unfairityWeight * (newAnger - mean(newAnger));
+newOpinions = newOpinions - unfairityWeight * government .* (newAnger - mean(newAnger));
 
 newOpinions = max(0, min(1, newOpinions));
 
