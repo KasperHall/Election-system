@@ -6,6 +6,9 @@ nParty = 10;                % Allowed values [1, 10]
 gridSize = 100;
 percentageToUpdate = 0.5;
 neighbourhoodSize = 20;
+changeWeight = 0.1;
+unfairityWeight = 0.1;
+
 nIteration = 1000;
 
 partyColors = InitializePartyColors();
@@ -33,12 +36,12 @@ for iIteration = 1:nIteration
     
     UpdateCountryPlot(newParameters, government);
     
-    newOpinions = ChangeOpinion(opinions, preferredParameters, government, newParameters, parameters);
+    newOpinions = ChangeOpinion(opinions, preferredParameters, government, newParameters, parameters, changeWeight, unfairityWeight);
     
     parameters = newParameters;
     
     population(:, (3 + nParameter):(2 + nParameter + nParty)) = newOpinions;
     
-    population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize);
+    population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty);
     
 end

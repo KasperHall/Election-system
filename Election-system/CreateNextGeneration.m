@@ -1,4 +1,4 @@
-function population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize)
+function population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty)
 
     nOfNewIndividuals = floor(size(population,1)*percentageToUpdate);
     distanceMatrix = GetDistance(population);
@@ -26,7 +26,7 @@ function population = CreateNextGeneration(population, percentageToUpdate, neigh
             parent2 = randi([1,size(listOfPotentialParents,1)]);
         end
         
-        individual = GenerateIndividual(population(parent1,:), population(parent2,:),neighbourhoodSize, gridSize);
+        individual = GenerateIndividual(population(parent1,:), population(parent2,:), neighbourhoodSize, gridSize, nParameter, nParty);
         newIndividuals(i,:) = individual;
         
     end
