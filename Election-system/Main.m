@@ -1,8 +1,8 @@
 clear variables; close all; clc;
 
 nGens = 100;
-nParameter = 100;
-nIndividual = 100;
+nParameter = 20;
+nIndividual = 1000;
 nParty = 5;                % Allowed values [1, 10]
 gridSize = 100;
 percentageToUpdate = 0.5;
@@ -28,7 +28,7 @@ population = InitializePopulation(nIndividual, gridSize, partyParameters);
 for generation = 2:nGens
     populationParameters = population(:, 3:(2 + nParameter));
     
-    happiness = CalculateHappiness(populationParameters, ...
+    happiness = ComputeHappiness(populationParameters, ...
       countryParameters);
     opinions = population(:, (3 + nParameter):(2 + nParameter + nParty));
     
