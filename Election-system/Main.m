@@ -19,15 +19,13 @@ nIteration = 1000;
 
 parameters = InitializeParameters(nParameter);
 
-population = InitializePopulation(nIndividual, gridSize, nParameter, nParty); %population is matrix with size nPopulation x (2 + nParameter + nParty)
+% Population is matrix with size nPopulation x (2 + nParameter + nParty)
+population = InitializePopulation(nIndividual, gridSize, nParameter, nParty); 
 
 parties = InitializeParties(nParty, nParameter);
 
-
-
-populationPlot = InitializePopulationPlot(population, gridSize);
-
-countryPlot = InitializeCountryPlot(parameters, parties);
+hAxes, populationPlot, countryPlot = InitializePlot(population, ...
+  gridSize, parameters, parties);
 
 for iIteration = 1:nIteration
     
