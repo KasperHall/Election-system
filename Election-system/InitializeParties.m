@@ -1,10 +1,19 @@
 function parties = InitializeParties(nParty, nParameter)
 
-  firstParty = ones(1, nParameter);
-  secondParty = zeros(1, nParameter);
-  otherParty = 
-  parties = (n)
-
-
-
+  switch nParty
+    case 0
+      error('nParty = 0 not allowed!')
+    case 1
+      parties = rand(1, nParameter);
+    case 2
+      firstParty = ones(1, nParameter);
+      secondParty = zeros(1, nParameter);
+      parties = [firstParty; secondParty];
+    otherwise
+      firstParty = ones(1, nParameter);
+      secondParty = zeros(1, nParameter);
+      otherParty = rand(nParty, nParameter);
+      parties = [firstParty; secondParty; otherParty];
+  end
+  
 end
