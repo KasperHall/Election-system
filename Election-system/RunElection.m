@@ -11,7 +11,7 @@ function [newCountryParameters, government, votes] = RunElection(parties, ...
     % party in the government ( for now 1 party has all the power (FPP))
     % Votes = nParties x 1 vector with the amount of votes each party gets 
     
-    votes = zeros(size(parties,1),1);
+    votes = zeros(1,size(populationOpinions,1));
     government = zeros(size(parties,1),1, 'logical');
     if votingSystem == "FPP"
         for i = 1:size(populationOpinions,1)
@@ -19,11 +19,12 @@ function [newCountryParameters, government, votes] = RunElection(parties, ...
             if rand < greedParameter
                 index = randi([1, size(populationOpinions,2)]);
             end
-            votes(index) = votes(index) + 1;
+            votes(i) = index;
         end
         
     % atm the same number of votes leads to the first tied party in the list to win
-    [~,index] = max(votes);
+    nrOfVotes = accumarray(votes(:),1);
+    [~, index] = max(nrOfVotes);
     government(index) = true;
     
     % Change parameters countryParameterChangeRate toward the new leading party
