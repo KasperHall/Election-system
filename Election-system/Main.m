@@ -21,6 +21,8 @@ opinionDeviation = 0.05;
 positionDeviation = 5;
 changeWeight = 0.1;
 unfairityWeight = 0.1;
+greedParameter = 0.01;
+countryParameterChangeRate = 0.2;
 voteSystems = ["FPP", "PLPR"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation
 pickedSystem = voteSystems(1);
 
