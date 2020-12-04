@@ -6,15 +6,17 @@ function populationOpinions = ChangeOpinion(populationOpinions, ...
   newAnger = mean(abs(countryParameters - populationParameters), 2);
   relativeAnger = newAnger - oldAnger;
   
-  a = populationOpinions(:, government) - changeWeight*relativeAnger;
-  b = unfairityWeight*(newAnger - mean(newAnger));
+  a = populationOpinions - changeWeight*relativeAnger .* government;
+  b = unfairityWeight*(newAnger - mean(newAnger)) .* government;
   newOpinions = max(0, min(1, a - b));
   
-  partyIndex = find(government);
-  
-  for i = 1:sum(government)
-    populationOpinions(:, partyIndex(i)) = newOpinions(:, i);
-  end
+%   partyIndex = find(government);
+%   
+%   for i = 1:sum(government)
+%     populationOpinions(:, partyIndex(i)) = newOpinions(:, i);
+%   end
+
+    populationOpinions = newOpinions;
   
 %   newOpinions = populationOpinions - changeWeight * partyParameters(government, :) .* relativeAnger;
 %   newOpinions = newOpinions - unfairityWeight * partyParameters(government, :).* (newAnger - mean(newAnger));

@@ -13,7 +13,7 @@ function [newCountryParameters, government, votes] = RunElection(parties, ...
     
     votes = zeros(size(parties,1),1);
 %     government = zeros(size(parties,1),1, 'logical');
-    government = zeros(size(parties,1),1);
+    government = zeros(1, size(parties,1));
     if votingSystem == "FPP"
         for i = 1:size(populationOpinions,1)
             [~, index] = max(populationOpinions(i,:));
