@@ -1,5 +1,6 @@
 function [newCountryParameters, government, votes] = RunElection(parties, ...
-  populationOpinions, countryParameters, votingSystem)
+  populationOpinions, countryParameters, votingSystem, greedParameter, ...
+  countryParameterChangeRate)
     % Parties = nParties x Their set parameters
     % Opinions = nIndividuals x their opinions on the parties
     % parameters = the parameters of the country
@@ -10,12 +11,14 @@ function [newCountryParameters, government, votes] = RunElection(parties, ...
     % party in the government ( for now 1 party has all the power (FPP))
     % Votes = nParties x 1 vector with the amount of votes each party gets 
     
-    
     votes = zeros(size(parties,1),1);
     government = zeros(size(parties,1),1, 'logical');
     if votingSystem == "FPP"
         for i = 1:size(populationOpinions,1)
             [~, index] = max(populationOpinions(i,:));
+            if rand < greedParameter
+                index = randi([1, size(populationOpinions,2)]);
+            end
             votes(index) = votes(index) + 1;
         end
         
@@ -23,9 +26,9 @@ function [newCountryParameters, government, votes] = RunElection(parties, ...
     [~,index] = max(votes);
     government(index) = true;
     
-    % Change parameters 20% toward the new leading party
+    % Change parameters countryParameterChangeRate toward the new leading party
     changeInParameters = countryParameters - parties(index,:);
-    newCountryParameters = countryParameters - (changeInParameters * 0.2);
+    newCountryParameters = countryParameters - (changeInParameters * countryParameterChangeRate);
     end
     
     if votingSystem == "PLPR"
