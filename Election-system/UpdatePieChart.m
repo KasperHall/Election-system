@@ -1,6 +1,6 @@
 function UpdatePieChart(pieAx, partyColors, government, votes)
   
-  pie(pieAx, votes(government));
-  colormap(pieAx, partyColors(government, :))
+  pie(pieAx, government);
+  colormap(pieAx, partyColors(1:length(government), :))
 
 end
