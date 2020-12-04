@@ -18,7 +18,7 @@ percentageToUpdate = 0.5;
 neighbourhoodSize = 20;
 parameterDeviation = 0.05;
 opinionDeviation = 0.05;
-positionDeviation = 0.05;
+positionDeviation = 5;
 changeWeight = 0.1;
 unfairityWeight = 0.1;
 voteSystems = ["FPP", "PLPR"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation

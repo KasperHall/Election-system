@@ -4,7 +4,7 @@ function happiness = ComputeHappiness(populationParameters, ...
   % rms = sqrt(mean((countryParameters - populationParameters).^2, 2));
   % happiness = 1./(1 + rms);
   mae = mean(abs(countryParameters - populationParameters), 2);
-  happiness = (1 - mae)';
+  happiness = (1 - mae);
 
 end
 
