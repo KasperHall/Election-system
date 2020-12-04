@@ -16,6 +16,7 @@ function population = CreateNextGeneration(population, percentageToUpdate, neigh
     iParent2 = zeros(nOfNewIndividuals, 1);
     nLeft = nOfNewIndividuals;
     
+    counter = 0;
     while nLeft > 0
         iProposedParent1 = randi([1, size(population,1)], nLeft, 1);
         iProposedParent2 = randi([1, size(population,1)], nLeft, 1);
@@ -28,6 +29,14 @@ function population = CreateNextGeneration(population, percentageToUpdate, neigh
         iParent2((nLeft - nAccepted + 1):nLeft) = iProposedParent2(iAccepted);
         
         nLeft = nLeft - nAccepted;
+        
+        if counter >= 100
+            
+            iParent1(1:nLeft) = iProposedParent1;
+            iParent2(1:nLeft) = iProposedParent2;
+            break;
+        end
+        counter = counter + 1;
     end
     
 %     cumPossible = cumsum(possiblePairs(:)');
