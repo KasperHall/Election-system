@@ -24,7 +24,7 @@ unfairityWeight = 0.1;
 greedParameter = 0.01;
 countryParameterChangeRate = 0.1;
 voteSystems = ["FPP", "PLPR"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation
-pickedSystem = voteSystems(2);
+pickedSystem = voteSystems(1);
 
 government = ones(nParty, 1, 'logical');
 
@@ -60,7 +60,7 @@ for generation = 2:nGens
     population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty, parameterDeviation, opinionDeviation, positionDeviation);
     
     % Update plots
-    UpdatePlots(hFigure, generation, populationPlot, population, ...
+    UpdatePlots(hFigure, hAxes, generation, populationPlot, population, ...
       happiness, votes, countryPlot, countryParameters, pieAx, ...
       government, partyColors, recordVideo, videoHandle)
 end
