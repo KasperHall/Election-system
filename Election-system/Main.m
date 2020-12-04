@@ -11,7 +11,7 @@ end
 
 nGens = 1000;
 nParameter = 30;
-nIndividual = 200;
+nIndividual = 4000;%200;
 nParty = 6;                % Allowed values [1, 10]
 gridSize = 100;
 percentageToUpdate = 0.5;

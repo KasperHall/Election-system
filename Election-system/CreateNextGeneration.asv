@@ -7,10 +7,6 @@ function population = CreateNextGeneration(population, percentageToUpdate, neigh
     possiblePairs = sparse((distanceMatrix < neighbourhoodSize) & ~logical(eye(size(population,1))));
     
     [is, js] = find(possiblePairs);
-    iTemp = randi([1, size(is,1)], nOfNewIndividuals, 1);
-    
-    iParent1 = is(iTemp);
-    iParent2 = js(iTemp);
     
 %     cumPossible = cumsum(possiblePairs(:)');
 %     cumProb = cumPossible / max(cumPossible);

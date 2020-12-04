@@ -20,20 +20,26 @@ function individual = GenerateIndividual(parent1, parent2, neighbourhoodSize, gr
     newY(newY > gridSize/2) = gridSize/2;
     newY(newY < -gridSize/2) = -gridSize/2;
     
+%         r = normrnd(1, 0.1, nChild, 1);
+%         if rand < 0.5
+%             individual(2+i) = parent1(2+i) .* r;
+%         else
+%             individual(2+i) = parent2(2+1) .* r;
+%         end
+    
     r = normrnd(1, 0.1, nChild, nParameter);
     iFrom = logical(randi([0, 1], nChild, nParameter));
 
     individual(:, 2+(1:nParameter)) = (iFrom .* parent1(:, 2+(1:nParameter)) + (~iFrom) .* parent2(:, 2+(1:nParameter))) .* r;
 
-    individual(individual(:, 2+(1:nParameter)) > 1) = 1;
-    individual(individual(:, 2+(1:nParameter)) < 0) = 0;
-    
-    r = normrnd(1, 0.1, nChild, nParty); 
+    individual(:, individual(:, 2+(1:nParameter)) > 1) = 1;
+    individual(:, individual(:, 2+(1:nParameter)) < 0) = 0;
+       
     iFrom = logical(randi([0, 1], nChild, nParty));
     individual(:, 2+nParameter+(1:nParty)) = (iFrom .* parent1(:, 2+nParameter+(1:nParty)) + (~iFrom) .* parent2(:, 2+nParameter+(1:nParty))) .* r;
 
-    individual(individual(:, 2+nParameter+(1:nParty)) > 1) = 1;
-    individual(individual(:, 2+nParameter+(1:nParty)) < 0) = 0;
+    individual(:, individual(:, 2+nParameter+(1:nParty)) > 1) = 1;
+    individual(:, individual(:, 2+nParameter+(1:nParty)) < 0) = 0;
         
            
     individual(:, 1) = newX;
