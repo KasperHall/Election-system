@@ -11,11 +11,14 @@ end
 
 nGens = 1000;
 nParameter = 30;
-nIndividual = 20000;%200;
+nIndividual = 2000;%200;
 nParty = 6;                % Allowed values [1, 10]
 gridSize = 100;
 percentageToUpdate = 0.5;
 neighbourhoodSize = 20;
+parameterDeviation = 0.05;
+opinionDeviation = 0.05;
+positionDeviation = 0.05;
 changeWeight = 0.1;
 unfairityWeight = 0.1;
 voteSystems = ["FPP", "PLPR"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation
@@ -51,7 +54,7 @@ for generation = 2:nGens
       oldCountryParameters, changeWeight, unfairityWeight);
     
     population(:, (3+nParameter):(2+nParameter+nParty)) = populationOpinions;
-    population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty);
+    population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty, parameterDeviation, opinionDeviation, positionDeviation);
     
     % Update plots
     UpdatePlots(hFigure, generation, populationPlot, population, ...

@@ -1,4 +1,4 @@
-function population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty)
+function population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty, parameterDeviation, opinionDeviation, positionDeviation)
 
     nOfNewIndividuals = floor(size(population,1)*percentageToUpdate);
 %     distanceMatrix = GetDistance(population);
@@ -38,7 +38,7 @@ function population = CreateNextGeneration(population, percentageToUpdate, neigh
 %     iParent1 = mod(iBothParents - 1, size(population,1)) + 1;
 %     iParent2 = floor((iBothParents - 1)/size(population,1)) + 1;
 
-    newIndividuals = GenerateIndividual(population(iParent1,:), population(iParent2,:), neighbourhoodSize, gridSize, nParameter, nParty);
+    newIndividuals = GenerateIndividual(population(iParent1,:), population(iParent2,:), neighbourhoodSize, gridSize, nParameter, nParty, parameterDeviation, opinionDeviation, positionDeviation);
     
     individualsToRemove = randperm(size(population,1),nOfNewIndividuals);
     population(individualsToRemove,:) = newIndividuals;
