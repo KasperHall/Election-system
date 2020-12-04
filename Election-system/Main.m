@@ -9,7 +9,7 @@ if recordVideo
   open(videoHandle);
 end
 
-nGens = 1000;
+nGens = 100;
 nParameter = 30;
 nIndividual = 200;%200;
 nParty = 6;                % Allowed values [1, 10]
