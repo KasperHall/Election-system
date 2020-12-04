@@ -48,7 +48,7 @@ for generation = 2:nGens
     oldCountryParameters = countryParameters;
     
     [countryParameters, government, votes] = RunElection(...
-      partyParameters, populationOpinions, countryParameters, pickedSystem(1));
+      partyParameters, populationOpinions, countryParameters, pickedSystem(1), greedParameter, countryParameterChangeRate);
     
     % Update population
     populationOpinions = ChangeOpinion(populationOpinions, ...
