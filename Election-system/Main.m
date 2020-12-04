@@ -15,16 +15,16 @@ nIndividual = 200;%200;
 nParty = 6;                % Allowed values [1, 10]
 gridSize = 100;
 percentageToUpdate = 0.5;
-neighbourhoodSize = 20;
+neighbourhoodSize = 30;
 parameterDeviation = 0.05;
 opinionDeviation = 0.05;
 positionDeviation = 0.5;
 changeWeight = 0.1;
 unfairityWeight = 0.1;
 greedParameter = 0.01;
-countryParameterChangeRate = 0.2;
+countryParameterChangeRate = 0.1;
 voteSystems = ["FPP", "PLPR"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation
-pickedSystem = voteSystems(1);
+pickedSystem = voteSystems(2);
 
 government = ones(nParty, 1, 'logical');
 
@@ -32,6 +32,7 @@ partyColors = InitializePartyColors();
 
 countryParameters = InitializeParameters(nParameter);
 partyParameters = InitializeParties(nParty, nParameter);
+compatibilityMatrix = CalculatePartyCompatibility(partyParameters, nParty);
 
 % Population [x, y, population parameters, opinion of the parties]
 population = InitializePopulation(nIndividual, gridSize, partyParameters);
@@ -48,7 +49,7 @@ for generation = 2:nGens
     oldCountryParameters = countryParameters;
     
     [countryParameters, government, votes] = RunElection(...
-      partyParameters, populationOpinions, countryParameters, pickedSystem(1), greedParameter, countryParameterChangeRate);
+      partyParameters, populationOpinions, countryParameters, pickedSystem(1), greedParameter, countryParameterChangeRate, compatibilityMatrix);
     
     % Update population
     populationOpinions = ChangeOpinion(populationOpinions, ...

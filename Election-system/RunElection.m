@@ -1,6 +1,6 @@
 function [newCountryParameters, government, votes] = RunElection(parties, ...
   populationOpinions, countryParameters, votingSystem, greedParameter, ...
-  countryParameterChangeRate)
+  countryParameterChangeRate, compatibilityMatrix)
     % Parties = nParties x Their set parameters
     % Opinions = nIndividuals x their opinions on the parties
     % parameters = the parameters of the country
@@ -16,25 +16,41 @@ function [newCountryParameters, government, votes] = RunElection(parties, ...
     votes = zeros(1,size(populationOpinions,1));
     
     if votingSystem == "FPP"
-        for i = 1:size(populationOpinions,1)
-            [~, index] = max(populationOpinions(i,:));
-            if rand < greedParameter
-                index = randi([1, size(populationOpinions,2)]);
-            end
-            votes(i) = index;
-        end
+        [nOfVotes, votes] = CountVotes(populationOpinions, greedParameter);
         
-    % atm the same number of votes leads to the first tied party in the list to win
-    nrOfVotes = accumarray(votes(:),1);
-    [~, index] = max(nrOfVotes);
-    government(index) = 1;
+        % atm the same number of votes leads to the first tied party in the list to win
+        [~, index] = max(nOfVotes);
+        government(index) = 1;
     
-    % Change parameters countryParameterChangeRate toward the new leading party
-    changeInParameters = countryParameters - parties(index,:);
-    newCountryParameters = countryParameters - (changeInParameters * countryParameterChangeRate);
+        % Change parameters countryParameterChangeRate toward the new leading party
+        changeInParameters = countryParameters - parties(index,:);
+        newCountryParameters = countryParameters - (changeInParameters * countryParameterChangeRate);
     end
     
     if votingSystem == "PLPR"
+        
+        [nOfVotes, votes] = CountVotes(populationOpinions, greedParameter);
+        nParties = size(populationOpinions,2);
+        nIndividuals = size(populationOpinions,1);
+        for i = 1:nParties
+            government(i) = nOfVotes(i)/nIndividuals;
+        end
+        [value, index] = max(government);
+        governmentParties = (index);
+        while value < 0.5 %needs majority
+         [val, idx] = max(compatibilityMatrix(index,:));
+         governmentParties = [governmentParties,idx];
+         value = value + val;
+         compatibilityMatrix(index,idx) = 0;
+        end 
+        
+        
+        for i = 1:size(governmentParties,2)
+            changeInParameters = countryParameters - parties(governmentParties(i),:);
+        end
+            newCountryParameters = countryParameters - (changeInParameters * countryParameterChangeRate);
+        
+        
        
         %Election system used in sweden
         
