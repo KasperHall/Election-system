@@ -8,7 +8,8 @@ function UpdatePlots(hFigure, generation, populationPlot, population, ...
   UpdatePieChart(pieAx, partyColors, government, votes)
   
   % Comment this out - slightly slows down the code
-  hFigure.Children(1).String = sprintf('Generation %d, Happiness %.2f', generation, mean(happiness));
+  hFigure.Children(1).String = sprintf('Generation %d, Happiness %.2f', ...
+    generation, mean(happiness));
   
   if recordVideo
     videoFrame = getframe(hFigure);
