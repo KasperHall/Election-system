@@ -19,10 +19,10 @@ neighbourhoodSize = 30;
 parameterDeviation = 0.05;
 opinionDeviation = 0.05;
 positionDeviation = 0.5;
-changeWeight = 0.1;
-unfairityWeight = 0.1;
+changeWeight = 5;
+unfairityWeight = 0.5;
 greedParameter = 0.01;
-countryParameterChangeRate = 0.1;
+countryParameterChangeRate = 0.01;
 voteSystems = ["FPP", "PLPR"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation
 pickedSystem = voteSystems(1);
 

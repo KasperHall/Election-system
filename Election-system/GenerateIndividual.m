@@ -3,7 +3,7 @@ function individual = GenerateIndividual(parent1, parent2, ...
   opinionDeviation, positionDeviation)
 
   nChild = size(parent1, 1);
-  individual = zeros(size(parent1)); 
+%   individual = -ones(size(parent1)); 
 
   p1PosX = parent1(:, 1);
   p1PosY = parent1(:, 2);
@@ -23,24 +23,27 @@ function individual = GenerateIndividual(parent1, parent2, ...
   newY(newY > gridSize/2) = gridSize/2;
   newY(newY < -gridSize/2) = -gridSize/2;
 
-  r = normrnd(0, parameterDeviation, nChild, nParameter);
-  iFrom = logical(randi([0, 1], nChild, nParameter));
+  r1 = normrnd(0, parameterDeviation, nChild, nParameter);
+  iFrom1 = logical(randi([0, 1], nChild, nParameter));
 
-  individual(:, 2+(1:nParameter)) = (iFrom .* parent1(:, 2+(1:nParameter))...
-    + (~iFrom) .* parent2(:, 2+(1:nParameter))) + r;
+  newParameters = (iFrom1 .* parent1(:, 2+(1:nParameter))...
+    + (~iFrom1) .* parent2(:, 2+(1:nParameter))) + r1;
 
-  individual(individual(:, 2+(1:nParameter)) > 1) = 1;
-  individual(individual(:, 2+(1:nParameter)) < 0) = 0;
+  newParameters(newParameters > 1) = 1;
+  newParameters(newParameters < 0) = 0;
 
-  r = normrnd(0, opinionDeviation, nChild, nParty); 
-  iFrom = logical(randi([0, 1], nChild, nParty));
-  individual(:, 2+nParameter+(1:nParty)) = (iFrom .* parent1(:, 2+nParameter+(1:nParty))...
-    + (~iFrom) .* parent2(:, 2+nParameter+(1:nParty))) + r;
+  r2 = normrnd(0, opinionDeviation, nChild, nParty); 
+  iFrom2 = logical(randi([0, 1], nChild, nParty));
+  newOpinions = (iFrom2 .* parent1(:, 2+nParameter+(1:nParty))...
+    + (~iFrom2) .* parent2(:, 2+nParameter+(1:nParty))) + r2;
 
-  individual(individual(:, 2+nParameter+(1:nParty)) > 1) = 1;
-  individual(individual(:, 2+nParameter+(1:nParty)) < 0) = 0;
+  newOpinions(newOpinions > 1) = 1;
+  newOpinions(newOpinions < 0) = 0;
+  
+  newOpinions = newOpinions ./ sum(newOpinions, 2);
 
-  r = normrnd(0, positionDeviation, nChild, 2); 
-  individual(:, [1, 2]) = [newX, newY] + r;
-
+  r3 = normrnd(0, positionDeviation, nChild, 2);
+  newPositions = [newX, newY] + r3;
+  
+  individual = [newPositions, newParameters, newOpinions];
 end
