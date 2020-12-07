@@ -1,6 +1,9 @@
 function parties = InitializeParties(nParty, nParameter)
 
-    switch nParty
+if nParty == 6 && nParameter == 3
+    parties = [1, 0, 0; -1, 0, 0; 0, 1, 0; 0, -1, 0
+else
+  switch nParty
     case 0
       error('nParty = 0 not allowed!')
     case 1
@@ -14,10 +17,7 @@ function parties = InitializeParties(nParty, nParameter)
       secondParty = zeros(1, nParameter);
       otherParty = rand(nParty - 2, nParameter);
       parties = [firstParty; secondParty; otherParty];
-    end
+  end
+end
   
-% Simple parties
-% if nParty == 6 && nParameter == 3
-%     parties = [1, 0, 0; 0, 1, 1; 0, 1, 0; 1, 0, 1; 0, 0, 1; 1, 1, 0];
-% end
 end
