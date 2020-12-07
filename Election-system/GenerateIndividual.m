@@ -9,10 +9,10 @@ function individual = GenerateIndividual(parent1, parent2, ...
   p1PosY = parent1(:, 2);
   p2PosX = parent2(:, 1);
   p2PosY = parent2(:, 2);
-  xMin = ((p1PosX + p2PosX)./2)-neighbourhoodSize;
-  xMax = ((p1PosX + p2PosX)./2)+neighbourhoodSize;
-  yMin = ((p1PosY + p2PosY)./2)-neighbourhoodSize;
-  yMax = ((p1PosY + p2PosY)./2)+neighbourhoodSize;
+  xMin = ((p1PosX + p2PosX)./2);%-neighbourhoodSize;
+  xMax = ((p1PosX + p2PosX)./2);%+neighbourhoodSize;
+  yMin = ((p1PosY + p2PosY)./2);%-neighbourhoodSize;
+  yMax = ((p1PosY + p2PosY)./2);%+neighbourhoodSize;
   newX = xMin + rand(nChild, 1) .* (xMax - xMin);
   newY = yMin + rand(nChild, 1) .* (yMax - yMin);
 

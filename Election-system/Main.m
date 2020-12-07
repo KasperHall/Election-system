@@ -15,17 +15,17 @@ nIndividual = 200;%200;
 nParty = 6;                % Allowed values [1, 10]
 gridSize = 100;
 percentageToUpdate = 0.5;
-neighbourhoodSize = 2;
+neighbourhoodSize = 30;
 parameterDeviation = 0.05;
 opinionDeviation = 0.05;
-positionDeviation = 0;
+positionDeviation = 0.5;
 changeWeight = 5;
 unfairityWeight = 0.5;
 greedParameter = 0.01;
 nToBeElected = 3;
 countryParameterChangeRate = 0.1;
 voteSystems = ["FPP", "PLPR", "STV"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation, STV = Single transferable vote
-pickedSystem = voteSystems(3);
+pickedSystem = voteSystems(1);
 
 
 government = ones(nParty, 1, 'logical');
