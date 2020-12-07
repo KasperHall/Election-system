@@ -22,9 +22,11 @@ positionDeviation = 0.5;
 changeWeight = 5;
 unfairityWeight = 0.5;
 greedParameter = 0.01;
-countryParameterChangeRate = 0.01;
-voteSystems = ["FPP", "PLPR"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation
-pickedSystem = voteSystems(1);
+nToBeElected = 3;
+countryParameterChangeRate = 0.1;
+voteSystems = ["FPP", "PLPR", "STV"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation, STV = Single transferable vote
+pickedSystem = voteSystems(3);
+
 
 government = ones(nParty, 1, 'logical');
 
@@ -49,7 +51,7 @@ for generation = 2:nGens
     oldCountryParameters = countryParameters;
     
     [countryParameters, government, votes] = RunElection(...
-      partyParameters, populationOpinions, countryParameters, pickedSystem(1), greedParameter, countryParameterChangeRate, compatibilityMatrix);
+      partyParameters, populationOpinions, countryParameters, pickedSystem(1), greedParameter, countryParameterChangeRate, compatibilityMatrix, nToBeElected);
     
     % Update population
     populationOpinions = ChangeOpinion(populationOpinions, ...

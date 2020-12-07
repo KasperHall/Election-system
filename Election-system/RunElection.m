@@ -1,6 +1,6 @@
 function [newCountryParameters, government, votes] = RunElection(parties, ...
   populationOpinions, countryParameters, votingSystem, greedParameter, ...
-  countryParameterChangeRate, compatibilityMatrix)
+  countryParameterChangeRate, compatibilityMatrix, nToBeElected)
     % Parties = nParties x Their set parameters
     % Opinions = nIndividuals x their opinions on the parties
     % parameters = the parameters of the country
@@ -62,6 +62,37 @@ function [newCountryParameters, government, votes] = RunElection(parties, ...
             newCountryParameters = newCountryParameters - (changeInParameters * countryParameterChangeRate);
         end
             
+        
+    end
+    
+    
+    if votingSystem == "STV"
+        nParties = size(parties,1);
+        if nToBeElected > nParties
+            error("Number of elected parties can not be higher than the number of parties");
+        end
+        
+        government = ones(1,nParties);
+        for i = 1:nParties-nToBeElected
+            [nOfVotes,~] = CountVotes(populationOpinions, greedParameter);
+            [~,indexes] = sort(nOfVotes);
+            for j = 1:nParties
+                if government(indexes(j))
+                    index = indexes(j);
+                    break;
+                end
+            end
+            populationOpinions(:,index) = 0;
+            government(index) = 0;  
+        end
+       
+        [~,votes] = CountVotes(populationOpinions, greedParameter);
+        government = government/nToBeElected;
+        elected = find(government ~= 0);
+        
+        changeInParameters = countryParameters - (sum(parties(elected,:))/nToBeElected);
+        newCountryParameters = countryParameters - (changeInParameters * countryParameterChangeRate);
+
         
     end
 
