@@ -10,17 +10,17 @@ if recordVideo
 end
 
 nGens = 1500;
-nParameter = 30;
+nParameter = 3;
 nIndividual = 1000;%200;
-nParty = 2;                % Allowed values [1, 10]
+nParty = 6;                % Allowed values [1, 10]
 gridSize = 100;
 percentageToUpdate = 0.5;
 neighbourhoodSize = 10;
 parameterDeviation = 0.05;
-opinionDeviation = 0.05;
+opinionDeviation = 0.0;
 positionDeviation = 2;
-changeWeight = 5;
-unfairityWeight = 0.9;
+changeWeight = 20;
+unfairityWeight = 0;
 greedParameter = 0.01;
 nToBeElected = 3;
 countryParameterChangeRate = 0.1;
@@ -40,7 +40,7 @@ compatibilityMatrix = CalculatePartyCompatibility(partyParameters, nParty);
 % Population [x, y, population parameters, opinion of the parties]
 population = InitializePopulation(nIndividual, gridSize, partyParameters);
 
-[hFigure, pieAx, hAxes, populationPlot, countryPlot, happinessPlot] = InitializePlot(...
+[hFigure, pieAx, hAxes, populationPlot, votePieAx, countryPlot, happinessPlot] = InitializePlot(...
   population, gridSize, countryParameters, government, happiness, partyColors);
 
 for generation = 2:nGens
@@ -63,9 +63,9 @@ for generation = 2:nGens
     population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty, parameterDeviation, opinionDeviation, positionDeviation);
     
     % Update plots
-    UpdatePlots(hFigure, hAxes, generation, populationPlot, population, ...
-      happiness, votes, countryPlot, countryParameters, pieAx, ...
-      government, happinessPlot, partyColors, recordVideo, videoHandle)
+    UpdatePlots(hFigure, hAxes, generation, populationPlot, votePieAx, ...
+        population, happiness, votes, countryPlot, countryParameters, ...
+        pieAx, government, happinessPlot, partyColors, recordVideo, videoHandle)
 end
 
 if recordVideo

@@ -1,4 +1,4 @@
-function [hFigure, pieAx, hAxes, populationPlot, countryPlot, happinessPlot] = ...
+function [hFigure, pieAx, hAxes, populationPlot, votePieAx, countryPlot, happinessPlot] = ...
   InitializePlot(population, gridSize, countryParameters, government, ...
                  happiness, partyColors)
 
@@ -8,8 +8,8 @@ function [hFigure, pieAx, hAxes, populationPlot, countryPlot, happinessPlot] = .
   hAxes(3) = subplot(2, 3, 3);  % Country plot
   hAxes(4) = subplot(2, 1, 2);  % Happiness plot
   
-  populationPlot = InitializePopulationPlot(population, ...
-    gridSize, hAxes(1));
+  [populationPlot, votePieAx] = InitializePopulationPlot(population, ...
+    gridSize, hAxes(1), partyColors);
   
   InitializePartyFreqPlot(government, hAxes(2), partyColors);
   
