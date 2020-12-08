@@ -71,9 +71,11 @@ function [newCountryParameters, government, votes] = RunElection(parties, ...
         if nToBeElected > nParties
             error("Number of elected parties can not be higher than the number of parties");
         end
+       
+        [~,votes] = CountVotes(populationOpinions, greedParameter);
         
         government = ones(1,nParties);
-        for i = 1:nParties-nToBeElected
+        for i = 1:(nParties-nToBeElected)
             [nOfVotes,~] = CountVotes(populationOpinions, greedParameter);
             [~,indexes] = sort(nOfVotes);
             for j = 1:nParties
@@ -85,13 +87,11 @@ function [newCountryParameters, government, votes] = RunElection(parties, ...
             populationOpinions(:,index) = -1;
             government(index) = 0;  
         end
-       
-        [~,votes] = CountVotes(populationOpinions, greedParameter);
         
         government = government/nToBeElected;
         elected = find(government ~= 0);
         
-        changeInParameters = countryParameters - (sum(parties(elected,:))/nToBeElected);
+        changeInParameters = countryParameters - (sum(parties(elected,:), 1)/nToBeElected);
         newCountryParameters = countryParameters - (changeInParameters * countryParameterChangeRate);
 
         

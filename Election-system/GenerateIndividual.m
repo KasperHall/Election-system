@@ -37,10 +37,10 @@ function individual = GenerateIndividual(parent1, parent2, ...
   newOpinions = (iFrom2 .* parent1(:, 2+nParameter+(1:nParty))...
     + (~iFrom2) .* parent2(:, 2+nParameter+(1:nParty))) + r2;
 
-  newOpinions(newOpinions > 1) = 1;
   newOpinions(newOpinions < 0) = 0;
-  
   newOpinions = newOpinions ./ sum(newOpinions, 2);
+  newOpinions(isnan(newOpinions)) = 1./size(newOpinions, 2);
+  newOpinions(newOpinions > 1) = 1;
 
   r3 = normrnd(0, positionDeviation, nChild, 2);
   newPositions = [newX, newY] + r3;

@@ -17,13 +17,13 @@ gridSize = 200;
 percentageToUpdate = 0.5;
 neighbourhoodSize = 10;
 parameterDeviation = 0.05;
-opinionDeviation = 0.0;
+opinionDeviation = 0.05;
 positionDeviation = 2;
-changeWeight = 20;
+changeWeight = 1000;
 unfairityWeight = 0;
-greedParameter = 0.01;
+greedParameter = 0.05;
 nToBeElected = 1;
-countryParameterChangeRate = 0.1;
+countryParameterChangeRate = 0.2;
 voteSystems = ["FPP", "PLPR", "STV"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation, STV = Single transferable vote
 pickedSystem = voteSystems(3);
 happiness = zeros(nGens, 1);

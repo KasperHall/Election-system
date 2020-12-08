@@ -12,8 +12,10 @@ function populationOpinions = ChangeOpinion(populationOpinions, ...
   
   a = populationOpinions - changeWeight*relativeAnger .* government;
   b = unfairityWeight*(newAnger - mean(newAnger)) .* government;
-  newOpinions = max(0, min(1, a - b));
+  newOpinions = max(0, a - b);
   newOpinions = newOpinions ./ sum(newOpinions, 2);
+  newOpinions(isnan(newOpinions)) = 1./size(newOpinions, 2);
+  newOpinions = min(1, newOpinions);
   
 %   partyIndex = find(government);
 %   
