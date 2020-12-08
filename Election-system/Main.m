@@ -11,9 +11,9 @@ end
 
 nGens = 1500;
 nParameter = 3;
-nIndividual = 1000;%200;
+nIndividual = 2000;%200;
 nParty = 6;                % Allowed values [1, 10]
-gridSize = 100;
+gridSize = 200;
 percentageToUpdate = 0.5;
 neighbourhoodSize = 10;
 parameterDeviation = 0.05;
@@ -22,10 +22,10 @@ positionDeviation = 2;
 changeWeight = 20;
 unfairityWeight = 0;
 greedParameter = 0.01;
-nToBeElected = 3;
+nToBeElected = 1;
 countryParameterChangeRate = 0.1;
 voteSystems = ["FPP", "PLPR", "STV"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation, STV = Single transferable vote
-pickedSystem = voteSystems(1);
+pickedSystem = voteSystems(3);
 happiness = zeros(nGens, 1);
 
 

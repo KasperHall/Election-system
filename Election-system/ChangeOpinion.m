@@ -1,7 +1,11 @@
 function populationOpinions = ChangeOpinion(populationOpinions, ...
   populationParameters, government, countryParameters, ...
   oldCountryParameters, changeWeight, unfairityWeight)
-
+  
+  %added test code NaN problem
+  temp = populationOpinions;
+  first = isnan(temp);
+  
   oldAnger = mean(abs(oldCountryParameters - populationParameters), 2);
   newAnger = mean(abs(countryParameters - populationParameters), 2);
   relativeAnger = newAnger - oldAnger;
@@ -18,7 +22,12 @@ function populationOpinions = ChangeOpinion(populationOpinions, ...
 %   end
 
     populationOpinions = newOpinions;
-  
+    
+    %added test code NaN problem
+    second = isnan(populationOpinions);
+    if max(max(first)) ~= max(max(second))
+      disp("error");
+    end
 %   newOpinions = populationOpinions - changeWeight * partyParameters(government, :) .* relativeAnger;
 %   newOpinions = newOpinions - unfairityWeight * partyParameters(government, :).* (newAnger - mean(newAnger));
 %   newOpinions = max(0, min(1, newOpinions));
