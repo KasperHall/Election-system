@@ -46,8 +46,8 @@ population = InitializePopulation(nIndividual, gridSize, partyParameters);
 for generation = 2:nGens
     populationParameters = population(:, 3:(2 + nParameter));
     
-    happiness(generation, 1) = ComputeHappiness(populationParameters, ...
-      countryParameters);
+    happiness(generation, 1) = mean(ComputeHappiness(populationParameters, ...
+      countryParameters));
     populationOpinions = population(:, (3 + nParameter):(2 + nParameter + nParty));
     oldCountryParameters = countryParameters;
     

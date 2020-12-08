@@ -11,7 +11,7 @@ function UpdatePlots(hFigure, hAxes, generation, populationPlot, population, ...
   
   % Comment this out - slightly slows down the code
   hFigure.Children(1).String = sprintf('Generation %d, Happiness %.2f', ...
-    generation, mean(happiness));
+    generation, happiness(generation));
   
   if recordVideo
     videoFrame = getframe(hFigure);
