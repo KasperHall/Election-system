@@ -1,6 +1,6 @@
 function populationOpinions = ChangeOpinion(populationOpinions, ...
   populationParameters, government, countryParameters, ...
-  oldCountryParameters, changeWeight, unfairityWeight)
+  oldCountryParameters, changeWeight, unfairityWeight, constantDislikeWeight)
   
   %added test code NaN problem
   temp = populationOpinions;
@@ -10,13 +10,21 @@ function populationOpinions = ChangeOpinion(populationOpinions, ...
   newAnger = mean(abs(countryParameters - populationParameters), 2);
   relativeAnger = newAnger - oldAnger;
   
-  a = populationOpinions - changeWeight*relativeAnger .* government;
-  b = unfairityWeight*(newAnger - mean(newAnger)) .* government;
-  newOpinions = max(0, a - b);
-  newOpinions = newOpinions ./ sum(newOpinions, 2);
-  newOpinions(isnan(newOpinions)) = 1./size(newOpinions, 2);
+% Previous opinion change
+%   changeOpinionDelta = changeWeight * relativeAnger .* government;
+%   unfairityOpinionDelta = unfairityWeight*(newAnger - mean(newAnger)) .* government;
+%   constantOpinionDelta = constantDislikeWeight .* government;
+%   newOpinions = populationOpinions - changeOpinionDelta - unfairityOpinionDelta - constantOpinionDelta;
+%   newOpinions = max(0, newOpinions);
+%   newOpinions = min(1, newOpinions);
+%   newOpinions = newOpinions ./ sum(newOpinions, 2);
+%   newOpinions(isnan(newOpinions)) = 1./size(newOpinions, 2);
+
+% Alternative opinion change
+  goalOpinions = 0.5 * (1 - relativeAnger);
+  newOpinions = populationOpinions - changeWeight .* (populationOpinions - (government .* goalOpinions) - ~government .* 0.5) - constantDislikeWeight .* government;
+  newOpinions = max(0, newOpinions);
   newOpinions = min(1, newOpinions);
-  
 %   partyIndex = find(government);
 %   
 %   for i = 1:sum(government)

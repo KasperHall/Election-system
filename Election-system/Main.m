@@ -17,15 +17,16 @@ gridSize = 200;
 percentageToUpdate = 0.5;
 neighbourhoodSize = 10;
 parameterDeviation = 0.05;
-opinionDeviation = 0.05;
+opinionDeviation = 0.01;
 positionDeviation = 2;
-changeWeight = 1000;
+changeWeight = 0.1;
 unfairityWeight = 0;
+constantDislikeWeight = 0;
 greedParameter = 0.05;
 nToBeElected = 1;
 countryParameterChangeRate = 0.2;
 voteSystems = ["FPP", "PLPR", "STV"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation, STV = Single transferable vote
-pickedSystem = voteSystems(3);
+pickedSystem = voteSystems(1);
 happiness = zeros(nGens, 1);
 
 
@@ -54,18 +55,18 @@ for generation = 2:nGens
     [countryParameters, government, votes] = RunElection(...
       partyParameters, populationOpinions, countryParameters, pickedSystem(1), greedParameter, countryParameterChangeRate, compatibilityMatrix, nToBeElected);
     
-    % Update population
-    populationOpinions = ChangeOpinion(populationOpinions, ...
-      populationParameters, government, countryParameters, ...
-      oldCountryParameters, changeWeight, unfairityWeight);
-    
-    population(:, (3+nParameter):(2+nParameter+nParty)) = populationOpinions;
-    population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty, parameterDeviation, opinionDeviation, positionDeviation);
-    
     % Update plots
     UpdatePlots(hFigure, hAxes, generation, populationPlot, votePieAx, ...
         population, happiness, votes, countryPlot, countryParameters, ...
         pieAx, government, happinessPlot, partyColors, recordVideo, videoHandle)
+
+    % Update population
+    populationOpinions = ChangeOpinion(populationOpinions, ...
+      populationParameters, government, countryParameters, ...
+      oldCountryParameters, changeWeight, unfairityWeight, constantDislikeWeight);
+    
+    population(:, (3+nParameter):(2+nParameter+nParty)) = populationOpinions;
+    population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty, parameterDeviation, opinionDeviation, positionDeviation);
 end
 
 if recordVideo
