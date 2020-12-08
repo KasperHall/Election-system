@@ -18,7 +18,7 @@ function population = CreateNextGeneration(population, percentageToUpdate, neigh
         iParent1((nLeft - nAccepted + 1):nLeft) = iProposedParent1(iAccepted);
         iParent2((nLeft - nAccepted + 1):nLeft) = iProposedParent2(iAccepted);
         
-        if counter >= 100
+        if counter >= 2500
             
             iParent1(1:nLeft) = iProposedParent1;
             iParent2(1:nLeft) = iProposedParent1;
