@@ -82,11 +82,12 @@ function [newCountryParameters, government, votes] = RunElection(parties, ...
                     break;
                 end
             end
-            populationOpinions(:,index) = 0;
+            populationOpinions(:,index) = -1;
             government(index) = 0;  
         end
        
         [~,votes] = CountVotes(populationOpinions, greedParameter);
+        
         government = government/nToBeElected;
         elected = find(government ~= 0);
         
