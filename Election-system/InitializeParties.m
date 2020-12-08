@@ -17,7 +17,7 @@ function parties = InitializeParties(nParty, nParameter)
     end
   
 % Simple parties
-if nParty == 6 && nParameter == 3
-    parties = [1, 0.5, 0.5; 0, 0.5, 0.5; 0.5, 1, 0.5; 0.5, 0, 0.5; 0.5, 0.5, 1; 0.5, 0.5, 0];
-end
+% if nParty == 6 && nParameter == 3
+%     parties = [1, 0.5, 0.5; 0, 0.5, 0.5; 0.5, 1, 0.5; 0.5, 0, 0.5; 0.5, 0.5, 1; 0.5, 0.5, 0];
+% end
 end
