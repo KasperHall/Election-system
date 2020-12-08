@@ -9,23 +9,24 @@ if recordVideo
   open(videoHandle);
 end
 
-nGens = 500;
+nGens = 1500;
 nParameter = 30;
-nIndividual = 200;%200;
-nParty = 6;                % Allowed values [1, 10]
+nIndividual = 1000;%200;
+nParty = 2;                % Allowed values [1, 10]
 gridSize = 100;
 percentageToUpdate = 0.5;
-neighbourhoodSize = 30;
+neighbourhoodSize = 10;
 parameterDeviation = 0.05;
 opinionDeviation = 0.05;
-positionDeviation = 0.5;
+positionDeviation = 2;
 changeWeight = 5;
-unfairityWeight = 0.5;
+unfairityWeight = 0.9;
 greedParameter = 0.01;
 nToBeElected = 3;
 countryParameterChangeRate = 0.1;
 voteSystems = ["FPP", "PLPR", "STV"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation, STV = Single transferable vote
 pickedSystem = voteSystems(1);
+happiness = zeros(nGens, 1);
 
 
 government = ones(nParty, 1, 'logical');
@@ -39,13 +40,13 @@ compatibilityMatrix = CalculatePartyCompatibility(partyParameters, nParty);
 % Population [x, y, population parameters, opinion of the parties]
 population = InitializePopulation(nIndividual, gridSize, partyParameters);
 
-[hFigure, pieAx, hAxes, populationPlot, countryPlot] = InitializePlot(...
-  population, gridSize, countryParameters, government, partyColors);
+[hFigure, pieAx, hAxes, populationPlot, countryPlot, happinessPlot] = InitializePlot(...
+  population, gridSize, countryParameters, government, happiness, partyColors);
 
 for generation = 2:nGens
     populationParameters = population(:, 3:(2 + nParameter));
     
-    happiness = ComputeHappiness(populationParameters, ...
+    happiness(generation, 1) = ComputeHappiness(populationParameters, ...
       countryParameters);
     populationOpinions = population(:, (3 + nParameter):(2 + nParameter + nParty));
     oldCountryParameters = countryParameters;
@@ -64,7 +65,7 @@ for generation = 2:nGens
     % Update plots
     UpdatePlots(hFigure, hAxes, generation, populationPlot, population, ...
       happiness, votes, countryPlot, countryParameters, pieAx, ...
-      government, partyColors, recordVideo, videoHandle)
+      government, happinessPlot, partyColors, recordVideo, videoHandle)
 end
 
 if recordVideo

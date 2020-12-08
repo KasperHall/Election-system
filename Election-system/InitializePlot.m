@@ -1,11 +1,12 @@
-function [hFigure, pieAx, hAxes, populationPlot, countryPlot] = ...
+function [hFigure, pieAx, hAxes, populationPlot, countryPlot, happinessPlot] = ...
   InitializePlot(population, gridSize, countryParameters, government, ...
-                 partyColors)
+                 happiness, partyColors)
 
   hFigure = figure;
-  hAxes(1) = subplot(1, 3, 1);  % Population plot
-  hAxes(2) = subplot(1, 3, 2);  % Party freq plot
-  hAxes(3) = subplot(1, 3, 3);  % Country plot
+  hAxes(1) = subplot(2, 3, 1);  % Population plot
+  hAxes(2) = subplot(2, 3, 2);  % Party freq plot
+  hAxes(3) = subplot(2, 3, 3);  % Country plot
+  hAxes(4) = subplot(2, 1, 2);  % Happiness plot
   
   populationPlot = InitializePopulationPlot(population, ...
     gridSize, hAxes(1));
@@ -14,6 +15,8 @@ function [hFigure, pieAx, hAxes, populationPlot, countryPlot] = ...
   
   [pieAx, countryPlot] = InitializeCountryPlot(countryParameters, ...
     government, hAxes(3), partyColors);
+  
+  happinessPlot = InitializeHappinessPlot(happiness, hAxes(4));
   
   sgtitle('Generation 1, Happiness 0.00')
 end
