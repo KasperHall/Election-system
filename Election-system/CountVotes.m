@@ -5,7 +5,10 @@ function [nOfVotes,votes] = CountVotes(populationOpinions, greedParameter)
         for i = 1:size(populationOpinions,1)
             [~, index] = max(populationOpinions(i,:));
             if rand < greedParameter
-                index = randi([1, size(populationOpinions,2)]);
+                possibleIndexes = find(populationOpinions(i,:) ~= -1);
+                indLength = size(possibleIndexes,2);
+                index = randi(indLength);
+                index = possibleIndexes(index);
             end
             votes(i) = index;
         end
