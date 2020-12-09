@@ -7,7 +7,9 @@ function votePlot = InitializeVotePlot(voteCount, hAxes, partyColors)
     set(votePlot(i), 'Color', partyColors(i, :))
   end
   
+  set(hAxes, 'Color', 'k')
   xlabel(hAxes, 'Generation')
   ylabel(hAxes, 'Vote count')
+  title(hAxes, 'Vote distribution')
 
 end
