@@ -1,19 +1,24 @@
-function parties = InitializeParties(nParty, nParameter)
+function parties = InitializeParties(nParty, nParameter, nVotingSystems)
 
+    
     switch nParty
     case 0
       error('nParty = 0 not allowed!')
     case 1
-      parties = rand(1, nParameter);
+      tempParties = rand(1, nParameter);
     case 2
       firstParty = ones(1, nParameter);
       secondParty = zeros(1, nParameter);
-      parties = [firstParty; secondParty];
+      tempParties = [firstParty; secondParty];
     otherwise
       firstParty = ones(1, nParameter);
       secondParty = zeros(1, nParameter);
       otherParty = rand(nParty - 2, nParameter);
-      parties = [firstParty; secondParty; otherParty];
+      tempParties = [firstParty; secondParty; otherParty];
+    end
+    parties = zeros(nParty,nParameter,nVotingSystems);
+    for i = 1:nVotingSystems
+        parties(:,:,i) = tempParties;
     end
   
 % Simple parties

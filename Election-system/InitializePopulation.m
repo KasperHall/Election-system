@@ -1,5 +1,5 @@
 function population = InitializePopulation(nIndividual, gridSize, ...
-  partyParameters)
+  partyParameters, nVotingSystems)
 
   nParty = size(partyParameters, 1);
   nParameter = size(partyParameters, 2);
@@ -12,7 +12,12 @@ function population = InitializePopulation(nIndividual, gridSize, ...
   
   populationOpinions = ComputeOpinion(populationParameters, partyParameters);
   
-  population = [populationPositions, ...
+  tempPopulation = [populationPositions, ...
                 populationParameters, ...
                 populationOpinions];
+  population = zeros(size(tempPopulation,1),size(tempPopulation,2), nVotingSystems);
+  for i = 1:nVotingSystems
+    population(:,:,i) = tempPopulation;
+  end
+            
 end
