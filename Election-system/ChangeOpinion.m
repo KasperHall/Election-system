@@ -21,15 +21,20 @@ function populationOpinions = ChangeOpinion(populationOpinions, ...
 %   newOpinions(isnan(newOpinions)) = 1./size(newOpinions, 2);
 
 % Alternative opinion change
-  goalOpinions = 0.5 * (1 - relativeAnger);
-  newOpinions = populationOpinions - changeWeight .* (populationOpinions - (government .* goalOpinions) - ~government .* 0.5) - constantDislikeWeight .* government;
-  newOpinions = max(0, newOpinions);
-  newOpinions = min(1, newOpinions);
-%   partyIndex = find(government);
-%   
-%   for i = 1:sum(government)
-%     populationOpinions(:, partyIndex(i)) = newOpinions(:, i);
-%   end
+%   goalOpinions = 0.5 * (1 - relativeAnger);
+%   newOpinions = populationOpinions - changeWeight .* (populationOpinions - (government .* goalOpinions) - ~government .* 0.5) - constantDislikeWeight .* government;
+%   newOpinions = max(0, newOpinions);
+%   newOpinions = min(1, newOpinions);
+
+% Another alternative opinion change
+    oposition = (government == 0) / sum(government == 0, 2);
+
+    sittingOpinionDelta = -changeWeight .* government .* relativeAnger;
+    opositionOpinionDelta = changeWeight .* oposition .* relativeAnger;
+    sittingConstantDelta = -constantDislikeWeight .* government;
+    opositionConstantDelta = constantDislikeWeight .* oposition;
+
+    newOpinions = populationOpinions + sittingOpinionDelta + opositionOpinionDelta + sittingConstantDelta + opositionConstantDelta;
 
     populationOpinions = newOpinions;
     
