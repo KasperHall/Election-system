@@ -9,9 +9,10 @@ if recordVideo
   open(videoHandle);
 end
 
-nGens = 1500;
-nParameter = 6;
-nIndividual = 2000;%200;
+
+nGens = 1000;
+nParameter = 3;
+nIndividual = 200;%200;
 nParty = 6;                % Allowed values [1, 10]
 gridSize = 200;
 percentageToUpdate = 0.5;
@@ -26,14 +27,13 @@ greedParameter = 0.15;
 nToBeElected = 1;
 countryParameterChangeRate = 0.2;
 voteSystems = ["FPP", "PLPR", "STV"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation, STV = Single transferable vote
-pickedSystem = voteSystems(3);
 nVotingSystems = size(voteSystems,2);
 happiness = zeros(nGens, 1, nVotingSystems);
-
+voteCount = zeros(nGens, nParty, nVotingSystems);
 
 government = ones(1, nParty, nVotingSystems, 'logical');
-votes = zeros(1, nIndividual ,nVotingSystems);
-populationParameters = zeros(nIndividual,nParty,nVotingSystems);
+populationVote = zeros(1, nIndividual ,nVotingSystems);
+populationParameters = zeros(nIndividual,nParameter,nVotingSystems);
 populationOpinions = zeros(nIndividual,nParty,nVotingSystems);
 oldCountryParameters = zeros(1,nParameter,nVotingSystems);
 
@@ -46,9 +46,8 @@ compatibilityMatrix = CalculatePartyCompatibility(partyParameters, nParty);
 % Population [x, y, population parameters, opinion of the parties]
 population = InitializePopulation(nIndividual, gridSize, partyParameters(:,:,1), nVotingSystems);
 
-% removed by me
-[hFigure, pieAx, hAxes, populationPlot, votePieAx, countryPlot, happinessPlot] = InitializePlot(...
-  population(:,:,1), gridSize, countryParameters(:,:,1), government(:,:,1), happiness(:,:,1), partyColors);
+[hFigure, pieAx, hAxes, populationPlot, votePlot, happinessPlot] = InitializePlot(...
+  population(:,:,1), gridSize, government(:,:,1), happiness(:,:,1), voteCount(:,:,1), partyColors); 
 
 for generation = 2:nGens
     for pickedSystem = 1:nVotingSystems
@@ -59,14 +58,15 @@ for generation = 2:nGens
         populationOpinions(:,:,pickedSystem) = population(:, (3 + nParameter):(2 + nParameter + nParty), pickedSystem);
         oldCountryParameters(:,:,pickedSystem) = countryParameters(:,:,pickedSystem);
     
-        [countryParameters(:,:,pickedSystem), government(:,:,pickedSystem), votes(:,:,pickedSystem)] = RunElection(...
+        [countryParameters(:,:,pickedSystem), government(:,:,pickedSystem), populationVote(:,:,pickedSystem)] = RunElection(...
             partyParameters(:,:,pickedSystem), populationOpinions(:,:,pickedSystem), countryParameters(:,:,pickedSystem),...
             voteSystems(pickedSystem), greedParameter, countryParameterChangeRate, compatibilityMatrix, nToBeElected);
-    
-        % Update plots % removed by me
-        UpdatePlots(hFigure, hAxes, generation, populationPlot, votePieAx, ...
-            population(:,:,pickedSystem), happiness(:,:,pickedSystem), votes(:,:,pickedSystem), countryPlot, countryParameters(:,:,pickedSystem), ...
-            pieAx, government(:,:,pickedSystem), happinessPlot, partyColors, recordVideo, videoHandle)
+        voteCount(generation, :, pickedSystem) = histc(populationVote(:,:,pickedSystem), 1:nParty);
+        
+        % Update plots Does not work yet!
+%        UpdatePlots(hFigure, hAxes, generation, populationPlot, ...
+%            population(:,:,pickedSystem), populationVote, votePlot, voteCount(:,:,pickedSystem), happinessPlot,...
+%            happiness(:,:,pickedSystem), pieAx, government(:,:,pickedSystem), partyColors, recordVideo, videoHandle)
 
         % Update population
         populationOpinions(:,:,pickedSystem) = ChangeOpinion(populationOpinions(:,:,pickedSystem), ...
@@ -74,10 +74,11 @@ for generation = 2:nGens
             oldCountryParameters(:,:,pickedSystem), changeWeight, unfairityWeight, constantDislikeWeight);
     
         population(:, (3+nParameter):(2+nParameter+nParty), pickedSystem) = populationOpinions(:,:,pickedSystem);
-        population(:,:,pickedSystem) = CreateNextGeneration(population(:,:,pickedSystem), percentageToUpdate, neighbourhoodSize,...
-            gridSize, nParameter, nParty, parameterDeviation, opinionDeviation, positionDeviation);
+        population(:,:,pickedSystem) = CreateNextGeneration(population(:,:,pickedSystem), percentageToUpdate,...
+            neighbourhoodSize, gridSize, nParameter, nParty, parameterDeviation, opinionDeviation, positionDeviation);
 
     end
+
 end
 
 if recordVideo
