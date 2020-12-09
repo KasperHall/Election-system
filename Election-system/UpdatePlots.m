@@ -1,13 +1,13 @@
-function UpdatePlots(hFigure, hAxes, generation, populationPlot, votePieAx, ...
-        population, happiness, votes, countryPlot, countryParameters, ...
-        pieAx, government, happinessPlot, partyColors, recordVideo, videoHandle)
+function UpdatePlots(hFigure, hAxes, generation, populationPlot, ...
+        population, populationVote, votePlot, voteCount, happinessPlot, ...
+        happiness, pieAx, government, partyColors, recordVideo, videoHandle)
 
-  UpdatePopulationPlot(populationPlot, votePieAx, population, happiness...
-      , votes, partyColors);
+  UpdatePopulationPlot(populationPlot, population, populationVote, partyColors);
   UpdatePartyFreqPlot(hAxes(2), government);
-  UpdateCountryPlot(countryPlot, countryParameters);
-  UpdatePieChart(pieAx, partyColors, government, votes);
+  UpdatePieChart(pieAx, partyColors, government, populationVote);
+  UpdateVotePlot(votePlot, voteCount)
   UpdateHappinessPlot(happinessPlot, happiness)
+  % UpdateCountryPlot(countryPlot, countryParameters);
   
   % Comment this out - slightly slows down the code
   hFigure.Children(1).String = sprintf('Generation %d, Average happiness %.2f', ...

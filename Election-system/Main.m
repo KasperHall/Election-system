@@ -9,9 +9,9 @@ if recordVideo
   open(videoHandle);
 end
 
-nGens = 1500;
+nGens = 1000;
 nParameter = 3;
-nIndividual = 2000;%200;
+nIndividual = 200;%200;
 nParty = 6;                % Allowed values [1, 10]
 gridSize = 200;
 percentageToUpdate = 0.5;
@@ -26,8 +26,9 @@ greedParameter = 0.05;
 nToBeElected = 1;
 countryParameterChangeRate = 0.2;
 voteSystems = ["FPP", "PLPR", "STV"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation, STV = Single transferable vote
-pickedSystem = voteSystems(1);
+pickedSystem = voteSystems(2);
 happiness = zeros(nGens, 1);
+voteCount = zeros(nGens, nParty);
 
 
 government = ones(nParty, 1, 'logical');
@@ -41,8 +42,8 @@ compatibilityMatrix = CalculatePartyCompatibility(partyParameters, nParty);
 % Population [x, y, population parameters, opinion of the parties]
 population = InitializePopulation(nIndividual, gridSize, partyParameters);
 
-[hFigure, pieAx, hAxes, populationPlot, votePieAx, countryPlot, happinessPlot] = InitializePlot(...
-  population, gridSize, countryParameters, government, happiness, partyColors);
+[hFigure, pieAx, hAxes, populationPlot, votePlot, happinessPlot] = ...
+  InitializePlot(population, gridSize, government, happiness, voteCount, partyColors);
 
 for generation = 2:nGens
     populationParameters = population(:, 3:(2 + nParameter));
@@ -52,13 +53,15 @@ for generation = 2:nGens
     populationOpinions = population(:, (3 + nParameter):(2 + nParameter + nParty));
     oldCountryParameters = countryParameters;
     
-    [countryParameters, government, votes] = RunElection(...
-      partyParameters, populationOpinions, countryParameters, pickedSystem(1), greedParameter, countryParameterChangeRate, compatibilityMatrix, nToBeElected);
+    [countryParameters, government, populationVote] = RunElection(...
+      partyParameters, populationOpinions, countryParameters, pickedSystem,...
+      greedParameter, countryParameterChangeRate, compatibilityMatrix, nToBeElected);
+    voteCount(generation, :) = histc(populationVote, 1:nParty);
     
     % Update plots
-    UpdatePlots(hFigure, hAxes, generation, populationPlot, votePieAx, ...
-        population, happiness, votes, countryPlot, countryParameters, ...
-        pieAx, government, happinessPlot, partyColors, recordVideo, videoHandle)
+    UpdatePlots(hFigure, hAxes, generation, populationPlot, ...
+        population, populationVote, votePlot, voteCount, happinessPlot, ...
+        happiness, pieAx, government, partyColors, recordVideo, videoHandle)
 
     % Update population
     populationOpinions = ChangeOpinion(populationOpinions, ...
@@ -66,7 +69,9 @@ for generation = 2:nGens
       oldCountryParameters, changeWeight, unfairityWeight, constantDislikeWeight);
     
     population(:, (3+nParameter):(2+nParameter+nParty)) = populationOpinions;
-    population = CreateNextGeneration(population, percentageToUpdate, neighbourhoodSize, gridSize, nParameter, nParty, parameterDeviation, opinionDeviation, positionDeviation);
+    population = CreateNextGeneration(population, percentageToUpdate, ...
+      neighbourhoodSize, gridSize, nParameter, nParty, parameterDeviation, ...
+      opinionDeviation, positionDeviation);
 end
 
 if recordVideo
