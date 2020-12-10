@@ -31,11 +31,19 @@ nVotingSystems = size(voteSystems,2);
 happiness = zeros(nGens, 1, nVotingSystems);
 voteCount = zeros(nGens, nParty, nVotingSystems);
 
-government = ones(1, nParty, nVotingSystems, 'logical');
-populationVote = zeros(1, nIndividual ,nVotingSystems);
-populationParameters = zeros(nIndividual,nParameter,nVotingSystems);
-populationOpinions = zeros(nIndividual,nParty,nVotingSystems);
-oldCountryParameters = zeros(1,nParameter,nVotingSystems);
+% Preallocate plot handles
+hFigure = gobjects(1, nVotingSystems);
+pieAx = gobjects(1, nVotingSystems);
+hAxes = gobjects(4, nVotingSystems);           % Currently 4 axes
+populationPlot = gobjects(1, nVotingSystems);
+votePlot = gobjects(nParty, nVotingSystems);
+happinessPlot = gobjects(1, nVotingSystems);
+
+government = ones(1, nParty, nVotingSystems);
+populationVote = zeros(1, nIndividual, nVotingSystems);
+populationParameters = zeros(nIndividual, nParameter, nVotingSystems);
+populationOpinions = zeros(nIndividual, nParty, nVotingSystems);
+oldCountryParameters = zeros(1, nParameter, nVotingSystems);
 
 partyColors = InitializePartyColors();
 
@@ -46,16 +54,21 @@ compatibilityMatrix = CalculatePartyCompatibility(partyParameters, nParty);
 % Population [x, y, population parameters, opinion of the parties]
 population = InitializePopulation(nIndividual, gridSize, partyParameters(:,:,1), nVotingSystems);
 
-[hFigure, pieAx, hAxes, populationPlot, votePlot, happinessPlot] = InitializePlot(...
-  population(:,:,1), gridSize, government(:,:,1), happiness(:,:,1), voteCount(:,:,1), partyColors); 
+for i = 1:nVotingSystems
+  [hFigure(:, i), pieAx(:, i), hAxes(:, i), populationPlot(:, i), votePlot(:, i), happinessPlot(:, i)] = ...
+    InitializePlot(population(:,:,i), gridSize, government(:,:,i), ...
+                   happiness(:,:,i), voteCount(:,:,i), partyColors);
+end
 
 for generation = 2:nGens
     for pickedSystem = 1:nVotingSystems
-        populationParameters(:,:,pickedSystem) = population(:, 3:(2 + nParameter), pickedSystem);
+        populationParameters(:,:,pickedSystem) = ...
+          population(:, 3:(2 + nParameter), pickedSystem);
     
-        happiness(generation, 1, pickedSystem) = mean(ComputeHappiness(populationParameters(:,:,pickedSystem), ...
-            countryParameters(:,:,pickedSystem)));
-        populationOpinions(:,:,pickedSystem) = population(:, (3 + nParameter):(2 + nParameter + nParty), pickedSystem);
+        happiness(generation, 1, pickedSystem) = mean(ComputeHappiness(...
+          populationParameters(:,:,pickedSystem), countryParameters(:,:,pickedSystem)));
+        populationOpinions(:,:,pickedSystem) = population(:, ...
+          (3 + nParameter):(2 + nParameter + nParty), pickedSystem);
         oldCountryParameters(:,:,pickedSystem) = countryParameters(:,:,pickedSystem);
     
         [countryParameters(:,:,pickedSystem), government(:,:,pickedSystem), populationVote(:,:,pickedSystem)] = RunElection(...
@@ -63,10 +76,10 @@ for generation = 2:nGens
             voteSystems(pickedSystem), greedParameter, countryParameterChangeRate, compatibilityMatrix, nToBeElected);
         voteCount(generation, :, pickedSystem) = histc(populationVote(:,:,pickedSystem), 1:nParty);
         
-        % Update plots Does not work yet!
-%        UpdatePlots(hFigure, hAxes, generation, populationPlot, ...
-%            population(:,:,pickedSystem), populationVote, votePlot, voteCount(:,:,pickedSystem), happinessPlot,...
-%            happiness(:,:,pickedSystem), pieAx, government(:,:,pickedSystem), partyColors, recordVideo, videoHandle)
+        % Update plots
+       UpdatePlots(hFigure(:, pickedSystem), hAxes(:, pickedSystem), generation, populationPlot(:, pickedSystem), ...
+           population(:,:,pickedSystem), populationVote(:, :, pickedSystem), votePlot(:, pickedSystem), voteCount(:,:,pickedSystem), happinessPlot(:, pickedSystem),...
+           happiness(:,:,pickedSystem), pieAx(:, pickedSystem), government(:,:,pickedSystem), partyColors, recordVideo, videoHandle)
 
         % Update population
         populationOpinions(:,:,pickedSystem) = ChangeOpinion(populationOpinions(:,:,pickedSystem), ...

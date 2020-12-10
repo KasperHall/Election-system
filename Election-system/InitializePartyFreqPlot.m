@@ -1,6 +1,6 @@
 function InitializePartyFreqPlot(government, hAxes, partyColors)
 
-  nParty = size(government, 1);
+  nParty = length(government);
   parties = 1:nParty;
   
   hold(hAxes, 'on');

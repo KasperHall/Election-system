@@ -4,7 +4,7 @@ function UpdatePlots(hFigure, hAxes, generation, populationPlot, ...
 
   UpdatePopulationPlot(populationPlot, population, populationVote, partyColors);
   UpdatePartyFreqPlot(hAxes(2), government);
-  UpdatePieChart(pieAx, partyColors, government, populationVote);
+  UpdatePieChart(pieAx, partyColors, government);
   UpdateVotePlot(votePlot, voteCount)
   UpdateHappinessPlot(happinessPlot, happiness)
   % UpdateCountryPlot(countryPlot, countryParameters);
