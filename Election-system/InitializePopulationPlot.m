@@ -6,12 +6,14 @@ function populationPlot = InitializePopulationPlot(population, gridSize,...
   
   populationPlot(1) = scatter(hAxes, population(:, 1), population(:, 2),...
     50, 'filled', 'k', 'MarkerEdgeColor', 'none');
+
   hold(hAxes, 'off');
 
   hAxes.XLim = [-gridSize/2, gridSize/2];
   hAxes.YLim = [-gridSize/2, gridSize/2];
-  xlabel('x');
-  ylabel('y');
+    hAxes.XLabel.String = 'x';
+    hAxes.YLabel.String = 'y';
+    hAxes.Title.String = 'Population';
   
 %   votePieAx = axes('Position',[0.055 0.82 0.15 0.15]);
 %   pie(votePieAx, ones(1, size(partyColors, 1)));

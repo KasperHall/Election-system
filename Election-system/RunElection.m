@@ -55,13 +55,18 @@ function [newCountryParameters, government, votes] = RunElection(parties, ...
             government(governmentParties(i)) = nOfVotes(governmentParties(i))/value;
         end
         
-        % Update the country parameters, not sure this is the way to go.
-        newCountryParameters = countryParameters;
-        for i = 1:nRulingParties
-            changeInParameters = countryParameters - parties(governmentParties(i),:);
-            newCountryParameters = newCountryParameters - (changeInParameters * countryParameterChangeRate);
-        end
-            
+%         % Update the country parameters, not sure this is the way to go.
+%         newCountryParameters = countryParameters;
+%         for i = 1:nRulingParties
+%             changeInParameters = countryParameters - parties(governmentParties(i),:);
+%             newCountryParameters = newCountryParameters - (changeInParameters * countryParameterChangeRate);
+%         end
+
+        % Modified country update
+
+        policy = government * parties;
+        changeInParameters = countryParameters - policy;
+        newCountryParameters = countryParameters - changeInParameters * countryParameterChangeRate;
         
     end
     
