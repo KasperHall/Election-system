@@ -25,7 +25,7 @@ unfairityWeight = 0;
 constantDislikeWeight = 0.01;
 greedParameter = 0.01;
 nToBeElected = 3;
-countryParameterChangeRate = 0.005;
+countryParameterChangeRate = 0.5;
 voteSystems = ["FPP", "PLPR", "STV"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation, STV = Single transferable vote
 nVotingSystems = size(voteSystems,2);
 happiness = zeros(nGens, 1, nVotingSystems);

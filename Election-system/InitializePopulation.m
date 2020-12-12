@@ -21,5 +21,5 @@ function population = InitializePopulation(nIndividual, gridSize, ...
   for i = 1:nVotingSystems
     population(:,:,i) = tempPopulation;
   end
-            
+
 end
