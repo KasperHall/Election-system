@@ -10,7 +10,7 @@ if recordVideo
 end
 
 
-nGens = 1000;
+nGens = 500;
 nParameter = 3;
 nIndividual = 1000;%200;
 nParty = 6;                % Allowed values [1, 10]
@@ -20,13 +20,14 @@ neighbourhoodSize = 30;
 parameterDeviation = 0.05;
 opinionDeviation = 0.01;
 positionDeviation = 2;
-changeWeight = 2;
+changeWeight = 0.5;
 unfairityWeight = 0;
 constantDislikeWeight = 0.001;
 greedParameter = 0.001;
 nToBeElected = 1;
-countryParameterChangeRate = 0.5;
+countryParameterChangeRate = 0.35;
 voteSystems = ["FPP", "PLPR", "STV"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation, STV = Single transferable vote
+voteSystems = ["FPP", "STV"];
 nVotingSystems = size(voteSystems,2);
 happiness = zeros(nGens, 1, nVotingSystems);
 voteCount = zeros(nGens, nParty, nVotingSystems);
@@ -52,7 +53,7 @@ for i = 1:nVotingSystems
 end
 
 nRun = 10;
-meanHap = zeros(nRun, 1, 3);
+meanHap = zeros(nRun, 1, nVotingSystems);
 for iRun = 1:nRun
 
   government = zeros(nGens, nParty, nVotingSystems);
@@ -90,7 +91,7 @@ for iRun = 1:nRun
       [countryParameters(:,:,pickedSystem), government(generation,:,pickedSystem), populationVote(:,:,pickedSystem)] = RunElection(...
           partyParameters(:,:,pickedSystem), populationOpinions(:,:,pickedSystem), countryParameters(:,:,pickedSystem),...
           voteSystems(pickedSystem), greedParameter, countryParameterChangeRate, compatibilityMatrix, nToBeElected);
-      voteCount(generation, :, pickedSystem) = histc(populationVote(:,:,pickedSystem), 1:nParty);
+      voteCount(generation, :, pickedSystem) = histc(populationVote(:,:,pickedSystem), 1:nParty)/nIndividual;
 
       % Update plots
       if generation == nGens

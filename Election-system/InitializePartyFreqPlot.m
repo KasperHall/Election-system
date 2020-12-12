@@ -9,6 +9,7 @@ function InitializePartyFreqPlot(government, hAxes, partyColors)
     hAxes.Children(1).FaceColor = partyColors(i, :);
   end
   
+  set(hAxes, 'XTick', []);
   xlabel(hAxes, 'Party')
   ylabel(hAxes, 'Times in government')
   title(hAxes, 'Government frequncy')
