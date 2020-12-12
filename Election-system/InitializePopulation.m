@@ -11,8 +11,9 @@ function population = InitializePopulation(nIndividual, gridSize, ...
   populationParameters = 0.5 * rand(1, nParameter) + 0.5 * rand(nIndividual, nParameter);
   populationParameters = max(0, min(1, populationParameters));
   
-  r = ComputeOpinion(populationParameters, partyParameters);
-  populationOpinions = r ./ sum(r, 2);
+  %r = ComputeOpinion(populationParameters, partyParameters);
+  %populationOpinions = r ./ sum(r, 2);
+  populationOpinions = ComputeOpinion(populationParameters, partyParameters);
   
   tempPopulation = [populationPositions, ...
                 populationParameters, ...
