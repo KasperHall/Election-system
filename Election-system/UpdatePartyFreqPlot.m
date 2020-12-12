@@ -1,12 +1,13 @@
 function UpdatePartyFreqPlot(hAxes, government)
 
   nParty = length(hAxes.Children);
-  index = find(government);
+  [~, col] = find(government);
   
   % Children are sorted in reverse order
-  for i = index
-    oldVal = hAxes.Children(nParty-(i-1)).YData;
-    hAxes.Children(nParty-(i-1)).YData = oldVal + 1;
+  for i = 1:size(col, 1)
+    partyIndex = col(i);
+    oldVal = hAxes.Children(nParty-(partyIndex-1)).YData;
+    hAxes.Children(nParty-(partyIndex-1)).YData = oldVal + 1;
   end
 
 
