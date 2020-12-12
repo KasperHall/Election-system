@@ -12,7 +12,7 @@ end
 
 nGens = 1000;
 nParameter = 3;
-nIndividual = 200;%200;
+nIndividual = 1000;%200;
 nParty = 6;                % Allowed values [1, 10]
 gridSize = 200;
 percentageToUpdate = 0.5;
@@ -22,9 +22,9 @@ opinionDeviation = 0.01;
 positionDeviation = 2;
 changeWeight = 2;
 unfairityWeight = 0;
-constantDislikeWeight = 0.01;
-greedParameter = 0.01;
-nToBeElected = 3;
+constantDislikeWeight = 0.001;
+greedParameter = 0.001;
+nToBeElected = 1;
 countryParameterChangeRate = 0.5;
 voteSystems = ["FPP", "PLPR", "STV"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation, STV = Single transferable vote
 nVotingSystems = size(voteSystems,2);
