@@ -12,8 +12,10 @@ function [nOfVotes,votes] = CountVotes(populationOpinions, greedParameter)
             end
             votes(i) = index;
         end
-        nOfVotes = accumarray(votes(:),1);
-        
+%         nOfVotes = accumarray(votes(:),1);
+        [gC, gR] = groupcounts(votes(:));
+        nOfVotes = zeros(size(populationOpinions, 2), 1);
+        nOfVotes(gR) = gC;
 end
         
   

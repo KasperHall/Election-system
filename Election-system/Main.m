@@ -22,10 +22,10 @@ opinionDeviation = 0.01;
 positionDeviation = 2;
 changeWeight = 2;
 unfairityWeight = 0;
-constantDislikeWeight = 0.05;
-greedParameter = 0.15;
+constantDislikeWeight = 0.01;
+greedParameter = 0.01;
 nToBeElected = 3;
-countryParameterChangeRate = 0.2;
+countryParameterChangeRate = 0.005;
 voteSystems = ["FPP", "PLPR", "STV"]; % FPP = first-past-the-post , PLPR = Party-list proportional representation, STV = Single transferable vote
 nVotingSystems = size(voteSystems,2);
 happiness = zeros(nGens, 1, nVotingSystems);
@@ -60,6 +60,9 @@ for i = 1:nVotingSystems
                    happiness(:,:,i), voteCount(:,:,i), partyColors);
 end
 
+nRun = 10;
+meanHap = zeros(nRun, 1, 3);
+for iRun = 1:nRun
 for generation = 2:nGens
     for pickedSystem = 1:nVotingSystems
         populationParameters(:,:,pickedSystem) = ...
@@ -77,10 +80,11 @@ for generation = 2:nGens
         voteCount(generation, :, pickedSystem) = histc(populationVote(:,:,pickedSystem), 1:nParty);
         
         % Update plots
+        if generation == nGens
        UpdatePlots(hFigure(:, pickedSystem), hAxes(:, pickedSystem), generation, populationPlot(:, pickedSystem), ...
            population(:,:,pickedSystem), populationVote(:, :, pickedSystem), votePlot(:, pickedSystem), voteCount(:,:,pickedSystem), happinessPlot(:, pickedSystem),...
            happiness(:,:,pickedSystem), pieAx(:, pickedSystem), government(:,:,pickedSystem), partyColors, recordVideo, videoHandle)
-
+        end
         % Update population
         populationOpinions(:,:,pickedSystem) = ChangeOpinion(populationOpinions(:,:,pickedSystem), ...
             populationParameters(:,:,pickedSystem), government(:,:,pickedSystem), countryParameters(:,:,pickedSystem), ...
@@ -92,6 +96,9 @@ for generation = 2:nGens
 
     end
 
+end
+
+meanHap(iRun, :, :) = mean(happiness);
 end
 
 if recordVideo

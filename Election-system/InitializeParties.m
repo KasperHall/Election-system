@@ -16,13 +16,15 @@ function parties = InitializeParties(nParty, nParameter, nVotingSystems)
       otherParty = rand(nParty - 2, nParameter);
       tempParties = [firstParty; secondParty; otherParty];
     end
+
+    % Simple parties
+    if nParty == 6 && nParameter == 3
+        tempParties = [1, 0.5, 0.5; 0, 0.5, 0.5; 0.5, 1, 0.5; 0.5, 0, 0.5; 0.5, 0.5, 1; 0.5, 0.5, 0];
+    end
+
     parties = zeros(nParty,nParameter,nVotingSystems);
     for i = 1:nVotingSystems
         parties(:,:,i) = tempParties;
     end
   
-% Simple parties
-% if nParty == 6 && nParameter == 3
-%     parties = [1, 0.5, 0.5; 0, 0.5, 0.5; 0.5, 1, 0.5; 0.5, 0, 0.5; 0.5, 0.5, 1; 0.5, 0.5, 0];
-% end
 end

@@ -8,10 +8,11 @@ function population = InitializePopulation(nIndividual, gridSize, ...
   %Give all individuals the same preffered parameters
 %   populationParameters = repmat(rand(1, nParameter), nIndividual, 1);
   %Give all individuals different preffered parameters
-  populationParameters = 0.9 * rand(1, nParameter) + 0.1 * rand(nIndividual, nParameter);
+  populationParameters = 0.5 * rand(1, nParameter) + 0.5 * rand(nIndividual, nParameter);
   populationParameters = max(0, min(1, populationParameters));
   
-  populationOpinions = ComputeOpinion(populationParameters, partyParameters);
+  r = rand(nIndividual, nParty);
+  populationOpinions = r ./ sum(r, 2);%ComputeOpinion(populationParameters, partyParameters);
   
   tempPopulation = [populationPositions, ...
                 populationParameters, ...
