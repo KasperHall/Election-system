@@ -39,13 +39,27 @@ populationPlot = gobjects(1, nVotingSystems);
 votePlot = gobjects(nParty, nVotingSystems);
 happinessPlot = gobjects(1, nVotingSystems);
 
+
+
+partyColors = InitializePartyColors();
+initGovernment = ones(1, nParty, nVotingSystems);
+initPartyParameters = InitializeParties(nParty, nParameter, nVotingSystems);
+initPopulation = InitializePopulation(nIndividual, gridSize, initPartyParameters(:,:,1), nVotingSystems);
+for i = 1:nVotingSystems
+  [hFigure(:, i), pieAx(:, i), hAxes(:, i), populationPlot(:, i), votePlot(:, i), happinessPlot(:, i)] = ...
+    InitializePlot(initPopulation(:,:,i), gridSize, initGovernment(:,:,i), ...
+                   happiness(:,:,i), voteCount(:,:,i), partyColors);
+end
+
+nRun = 10;
+meanHap = zeros(nRun, 1, 3);
+for iRun = 1:nRun
+
 government = ones(1, nParty, nVotingSystems);
 populationVote = zeros(1, nIndividual, nVotingSystems);
 populationParameters = zeros(nIndividual, nParameter, nVotingSystems);
 populationOpinions = zeros(nIndividual, nParty, nVotingSystems);
 oldCountryParameters = zeros(1, nParameter, nVotingSystems);
-
-partyColors = InitializePartyColors();
 
 countryParameters = InitializeParameters(nParameter,nVotingSystems);
 partyParameters = InitializeParties(nParty, nParameter, nVotingSystems);
@@ -54,15 +68,6 @@ compatibilityMatrix = CalculatePartyCompatibility(partyParameters, nParty);
 % Population [x, y, population parameters, opinion of the parties]
 population = InitializePopulation(nIndividual, gridSize, partyParameters(:,:,1), nVotingSystems);
 
-for i = 1:nVotingSystems
-  [hFigure(:, i), pieAx(:, i), hAxes(:, i), populationPlot(:, i), votePlot(:, i), happinessPlot(:, i)] = ...
-    InitializePlot(population(:,:,i), gridSize, government(:,:,i), ...
-                   happiness(:,:,i), voteCount(:,:,i), partyColors);
-end
-
-nRun = 10;
-meanHap = zeros(nRun, 1, 3);
-for iRun = 1:nRun
 for generation = 2:nGens
     for pickedSystem = 1:nVotingSystems
         populationParameters(:,:,pickedSystem) = ...
